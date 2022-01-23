@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -86,6 +88,16 @@ class Product
      * @ORM\Column(type="smallint", nullable=true)
      */
     private $online;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ProductCommand::class, mappedBy="product", orphanRemoval=true)
+     */
+    private $productCommands;
+
+    public function __construct()
+    {
+        $this->productCommands = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -256,6 +268,36 @@ class Product
     public function setOnline(?int $online): self
     {
         $this->online = $online;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductCommand[]
+     */
+    public function getProductCommands(): Collection
+    {
+        return $this->productCommands;
+    }
+
+    public function addProductCommand(ProductCommand $productCommand): self
+    {
+        if (!$this->productCommands->contains($productCommand)) {
+            $this->productCommands[] = $productCommand;
+            $productCommand->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductCommand(ProductCommand $productCommand): self
+    {
+        if ($this->productCommands->removeElement($productCommand)) {
+            // set the owning side to null (unless already changed)
+            if ($productCommand->getProduct() === $this) {
+                $productCommand->setProduct(null);
+            }
+        }
 
         return $this;
     }

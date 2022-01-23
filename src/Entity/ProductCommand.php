@@ -42,6 +42,18 @@ class ProductCommand
      */
     private $totalTVA;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Command::class, inversedBy="productCommands")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $command;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="productCommands")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $product;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +115,30 @@ class ProductCommand
     public function setTotalTVA(?float $totalTVA): self
     {
         $this->totalTVA = $totalTVA;
+
+        return $this;
+    }
+
+    public function getCommand(): ?Command
+    {
+        return $this->command;
+    }
+
+    public function setCommand(?Command $command): self
+    {
+        $this->command = $command;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }
