@@ -23,14 +23,14 @@ class Category
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=2083)
      */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $colors;
+    private $color;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -71,14 +71,14 @@ class Category
         return $this;
     }
 
-    public function getColors(): ?string
+    public function getColor(): ?string
     {
-        return $this->colors;
+        return $this->color;
     }
 
-    public function setColors(?string $colors): self
+    public function setColor(?string $color): self
     {
-        $this->colors = $colors;
+        $this->color = $color;
 
         return $this;
     }
