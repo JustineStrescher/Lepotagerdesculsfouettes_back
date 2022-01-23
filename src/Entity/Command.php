@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommandRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,21 @@ class Command
      * @ORM\Column(type="float", nullable=true)
      */
     private $totalTVA;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commands")
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ProductCommand::class, mappedBy="command", orphanRemoval=true)
+     */
+    private $productCommands;
+
+    public function __construct()
+    {
+        $this->productCommands = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +154,48 @@ class Command
     public function setTotalTVA(?float $totalTVA): self
     {
         $this->totalTVA = $totalTVA;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductCommand[]
+     */
+    public function getProductCommands(): Collection
+    {
+        return $this->productCommands;
+    }
+
+    public function addProductCommand(ProductCommand $productCommand): self
+    {
+        if (!$this->productCommands->contains($productCommand)) {
+            $this->productCommands[] = $productCommand;
+            $productCommand->setCommand($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductCommand(ProductCommand $productCommand): self
+    {
+        if ($this->productCommands->removeElement($productCommand)) {
+            // set the owning side to null (unless already changed)
+            if ($productCommand->getCommand() === $this) {
+                $productCommand->setCommand(null);
+            }
+        }
 
         return $this;
     }
