@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Entity\Product;
-use App\Entity\Category;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
