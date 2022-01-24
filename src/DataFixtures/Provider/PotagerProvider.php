@@ -52,6 +52,8 @@ class PotagerProvider
                 // pour toutes les catégories qui ne sont pas des catégories mères (car les catégories mères n'ont pas de produits associés)
                 for($j=0;$j<=6;$j++) {
                     // 6 produits par catégorie
+
+                    // On attribut aléatoirement les prix au poids ou à l'unité.
                     if(mt_rand(1, 2) == 1) {
                         $unit_price = $this->faker->randomFloat(1, 1, 20);
                         $weight_price = 0;
@@ -59,7 +61,8 @@ class PotagerProvider
                         $unit_price = 0;
                         $weight_price = $this->faker->randomFloat(1, 1, 20);
                     }
-                    $productName = $this->faker->word(2, true);
+                    // On spécifie le nom, que l'on sluggify dans la foulée.
+                    $productName = $this->faker->unique()->words(2, true);
                     $slug = $this->slugger->slug($productName);
                     $products[] = array(
                         'name' => $productName,
@@ -87,15 +90,14 @@ class PotagerProvider
 
     function getCommand() {
         $commands = array();
-
-        // entre 0 et 6 commandes pour chaque clients
-
-        for ($i=0;$i<=$this->nbClient;$i++) {
+        // pour chaque client
+        for ($i=1;$i<=$this->nbClient;$i++) {
+            // entre 0 et 6 commandes pour chaque client
             $nbCommand = mt_rand(0,6);
-            for ($j=0;$j<=$nbCommand;$j++) {
+            for ($j=1;$j<=$nbCommand;$j++) {
                 $commands[] = array(
-                    'num_fact' => '#Fact_0000'.$j,
-                    'status' => $this->faker->randomElement(['Livré', 'En cours', 'Payé']),
+                    'num_fact' => '#Fact_0000'.$i.$j,
+                    'status' => $this->faker->randomElement(['Préparé', 'En cours', 'Payé']),
                     'updated_at' => $this->faker->dateTimeBetween('-2 week', '-1 week'),
                     'total_ttc' => $this->faker->randomFloat(2, 5, 300),
                     'total_ht' => $this->faker->randomFloat(2, 5, 300),
