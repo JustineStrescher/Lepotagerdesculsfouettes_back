@@ -72,7 +72,7 @@ class UserController extends AbstractController
 
      /**
      * 
-     * @Route("/api/client/{id<\d+>}", name="api_client_post", methods={"POST"})
+     * @Route("/api/client/{id<\d+>}", name="api_client_id_post", methods={"POST"})
      */
     public function postClientId(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine)
     {
@@ -100,6 +100,38 @@ class UserController extends AbstractController
             
             //Groups
             ['groups' => 'client_id']
+        );
+    }
+    /**
+     * 
+     * @Route("/api/client/register", name="api_client_register_post", methods={"POST"})
+     */
+    public function postClient(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine)
+    {
+        //Récuperer le contenu JSON
+        $jsonContent=$request->getContent();
+
+        //Désérialiser (convertir) le JSON en entité Doctrine User
+        $user = $serializer->deserialize($jsonContent, User::class, 'json');
+
+        //Validé l'entité
+
+        //On sauvegarde l'entité
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        // On retourne la réponse adapté (201)
+        //dd($user);
+        return $this->json(
+            //Le client modifié peut etre ajouté en retour
+            $user,
+            //Le status code : 201 CREATED
+            //utilisation des constantes de classes
+            Response::HTTP_CREATED,
+            
+            //Groups
+            ['groups' => 'client_register']
         );
     }
 }
