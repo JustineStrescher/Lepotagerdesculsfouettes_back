@@ -37,7 +37,7 @@ class ProductController extends AbstractController
 
      /**
      * Get info one product
-     * @Route("/api/product/{id<\d+>}/info", name="api_product_info")
+     * @Route("/api/product/{id<\d+>}/info", name="api_product_info", methods={"GET"})
      */
     public function getItemProduct(Product $product = null): Response
     {
@@ -57,7 +57,7 @@ class ProductController extends AbstractController
     }
       /**
      * Get info lite one product
-     * @Route("/api/product/{id<\d+>}", name="api_product_lite")
+     * @Route("/api/product/{id<\d+>}", name="api_product_lite", methods={"GET"})
      */
     public function getItemProductLite(Product $product = null): Response
     {
@@ -77,7 +77,7 @@ class ProductController extends AbstractController
     }
      /**
      * Get selection product
-     * @Route("/api/highlighted}", name="api_product_highlighted")
+     * @Route("/api/highlighted}", name="api_product_highlighted", methods={"GET"})
      */
     public function getProductHighlighted (ProductRepository $productRepository): Response
     {

@@ -29,7 +29,7 @@ class ProductRepository extends ServiceEntityRepository
             WHERE online = 1'
             
         );
-        return $query;
+        return $query->getResult();
         
         
     }
@@ -49,7 +49,7 @@ class ProductRepository extends ServiceEntityRepository
             WHERE hihlighted = 1'
             
         );
-        return $query;
+        return $query->getResult();
         
         
     }
@@ -61,10 +61,10 @@ class ProductRepository extends ServiceEntityRepository
         $query = $entityManager->createQuery(
             'SELECT * 
             FROM App\Entity\Product 
-            WHERE category_id = '.intval($id).''
+            WHERE category_id = :id'
             
-        );
-        return $query;
+        )->setParameter('id', $id);
+        return $query->getResult();
         
         
     }
