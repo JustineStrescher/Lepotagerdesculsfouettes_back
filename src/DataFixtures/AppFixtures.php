@@ -8,6 +8,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\PotagerProvider;
+use App\Entity\User;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 
 class AppFixtures extends Fixture
 {
@@ -32,19 +34,19 @@ class AppFixtures extends Fixture
         // On tronque
         $this->connection->executeQuery('TRUNCATE TABLE category');
         $this->connection->executeQuery('TRUNCATE TABLE product');
+        $this->connection->executeQuery('TRUNCATE TABLE user');
         // etc.
     }
 
     public function load(ObjectManager $manager): void
     {
-
         // On TRUNCATE manuellement
         $this->truncate();
 
         $PotagerProvider = new PotagerProvider();
 
         foreach($PotagerProvider->getCategories() as $this_category_array) {
-            $category = new Category;
+            $category = new Category();
             if($this_category_array['parent_id'] == 0) {
                 $category_parent = null;
             } else {
@@ -59,7 +61,7 @@ class AppFixtures extends Fixture
         }
 
         foreach ($PotagerProvider->getProducts() as $this_product_array) {
-            $product = new Product;
+            $product = new Product();
             $product->setName($this_product_array['name']);
             $product->setSlug($this_product_array['slug']);
             $product->setWeight($this_product_array['weight']);
@@ -78,6 +80,24 @@ class AppFixtures extends Fixture
 
             $product->setCategory($category);
             $manager->persist($product);
+            $manager->flush();
+        }
+
+        foreach ($PotagerProvider->getUsers() as $this_user_array) {
+            $user = new User();
+            $user->setEmail($this_user_array['email']);
+            $user->setRoles($this_user_array['roles']);
+            $user->setPassword($this_user_array['password']);
+            $user->setFirstname($this_user_array['firstname']);
+            $user->setLastname($this_user_array['lastname']);
+            $user->setAddress($this_user_array['address']);
+            $user->setZip($this_user_array['zip']);
+            $user->setCity($this_user_array['city']);
+            $user->setCountry($this_user_array['country']);
+            $user->setUpdatedAt($this_user_array['updated_at']);
+            $user->setPhone($this_user_array['phone']);
+
+            $manager->persist($user);
             $manager->flush();
         }
     }
