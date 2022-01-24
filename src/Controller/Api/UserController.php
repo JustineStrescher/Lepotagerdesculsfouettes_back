@@ -4,9 +4,12 @@ namespace App\Controller\Api;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserController extends AbstractController
 {
@@ -28,7 +31,7 @@ class UserController extends AbstractController
     }
     /**
      * 
-     * @Route("/api/client/{id<\d+>}", name="api_client", methods={"GET"})
+     * @Route("/api/client/{id<\d+>}", name="api_client_get", methods={"GET"})
      */
     public function getClientId(UserRepository $userRepository, $id){
         $client=$userRepository->findByClientId($id);
@@ -66,4 +69,37 @@ class UserController extends AbstractController
      * 
      * @Route("/api/login_check", name="api_login_check", methods={"GET"})
      */
+
+     /**
+     * 
+     * @Route("/api/client/{id<\d+>}", name="api_client_post", methods={"POST"})
+     */
+    public function postClientId(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine)
+    {
+        //Récuperer le contenu JSON
+        $jsonContent=$request->getContent();
+
+        //Désérialiser (convertir) le JSON en entité Doctrine User
+        $user = $serializer->deserialize($jsonContent, User::class, 'json');
+
+        //Validé l'entité
+
+        //On sauvegarde l'entité
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        // On retourne la réponse adapté (200, 204 ou 404)
+        //dd($user);
+        return $this->json(
+            //Le client modifié peut etre ajouté en retour
+            $user,
+            //Le status code : 200 OK
+            //utilisation des constantes de classes
+            Response::HTTP_OK,
+            
+            //Groups
+            ['groups' => 'client_id']
+        );
+    }
 }
