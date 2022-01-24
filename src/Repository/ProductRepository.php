@@ -53,6 +53,21 @@ class ProductRepository extends ServiceEntityRepository
         
         
     }
+    public function findByCategoryId($id)
+    {
+        //j'appelle doctrine pour me permettre de faire ma requète
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT * 
+            FROM App\Entity\Product 
+            WHERE category_id = '.intval($id).''
+            
+        );
+        return $query;
+        
+        
+    }
 
     // /**
     //  * @return Product[] Returns an array of Product objects
