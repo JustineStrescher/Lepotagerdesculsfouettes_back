@@ -52,6 +52,7 @@ class Category
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="categories")
+     * @ORM\JoinColumn(nullable=true,onDelete="SET NULL")
      */
     private $parent;
 
