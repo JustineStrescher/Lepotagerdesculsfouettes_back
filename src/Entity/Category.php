@@ -61,6 +61,11 @@ class Category
      */
     private $categories;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -201,6 +206,18 @@ class Category
                 $category->setParent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

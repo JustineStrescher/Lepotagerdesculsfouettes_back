@@ -57,6 +57,7 @@ class AppFixtures extends Fixture
             }
             $category->setParent($category_parent);
             $category->setName($this_category_array['name']);
+            $category->setSlug($this_category_array['slug']);
             $category->setPicture($this_category_array['picture']);
             $category->setUpdatedAt($this_category_array['updated_at']);
             $manager->persist($category);
