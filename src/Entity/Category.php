@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -63,6 +64,7 @@ class Category
     {
         $this->products = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->creationAt = new DateTime();
     }
 
     public function getId(): ?int
