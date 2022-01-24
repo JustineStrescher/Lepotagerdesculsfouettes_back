@@ -22,29 +22,39 @@ class CategoryRepository extends ServiceEntityRepository
     // /**
     //  * @return Category[] Returns an array of Category objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findMainCategories()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('c.parent_id = 0')
             ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Category
+    public function findSubCategories($value)
     {
+        // returns an array of Movie objects
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+            ->andWhere('c.parent_id = :val')
             ->setParameter('val', $value)
+            ->orderBy('c.id', 'ASC')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+
+    public function findParentCategory($value)
+    {
+        // returns an array of Movie objects
+        return $this->createQueryBuilder('c')
+            ->select('c.parent_id')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
