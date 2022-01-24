@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CommandRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommandRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=CommandRepository::class)
@@ -67,6 +68,7 @@ class Command
     public function __construct()
     {
         $this->productCommands = new ArrayCollection();
+        $this->creationAt = new DateTime();
     }
 
     public function getId(): ?int

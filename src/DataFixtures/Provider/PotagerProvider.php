@@ -10,11 +10,13 @@ class PotagerProvider
 
     private $slugger;
     private $faker;
-    
+    private $nbClient;
+
     public function __construct()
     {
         $this->slugger = new AsciiSlugger();
         $this->faker = Factory::create('fr_FR');
+        $this->nbClient = 10;
     }
     
     public function getUsers()
@@ -22,8 +24,8 @@ class PotagerProvider
         $users = array();
         // Azerty
         $hashedPassword = '$2y$13$siqh.kbCV5/snSPL8E/hFOlT3RUyVIbZprSr7XIel3wFUol6YpLtW';
-        for($i=0;$i<10;$i++) {
-            // 10 utilisateurs
+        for($i=0;$i<$this->nbClient;$i++) {
+            // $this->nbClient utilisateurs
             $users[] = array(
                 'password' => $hashedPassword,
                 'email' => $this->faker->safeEmail(),
@@ -81,6 +83,32 @@ class PotagerProvider
         }
         return $products;
     }
+
+
+    function getCommand() {
+        $commands = array();
+
+        // entre 0 et 6 commandes pour chaque clients
+
+        for ($i=0;$i<=$this->nbClient;$i++) {
+            $nbCommand = mt_rand(0,6);
+            for ($j=0;$j<=$nbCommand;$j++) {
+                $commands[] = array(
+                    'num_fact' => '#Fact_0000'.$j,
+                    'status' => $this->faker->randomElement(['Livré', 'En cours', 'Payé']),
+                    'updated_at' => $this->faker->dateTimeBetween('-2 week', '-1 week'),
+                    'total_ttc' => $this->faker->randomFloat(2, 5, 300),
+                    'total_ht' => $this->faker->randomFloat(2, 5, 300),
+                    'total_tva' => $this->faker->randomFloat(2, 5, 300),
+                    'total_ttc' => $this->faker->randomFloat(2, 5, 300),
+                    'user_id' => $i,
+                );
+            }
+        }
+
+        return $commands;
+    }
+
 
     function getCategories() {
         // retourne simplement toutes les catégories pour être crées

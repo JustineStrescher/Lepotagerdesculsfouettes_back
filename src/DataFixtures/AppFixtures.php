@@ -2,18 +2,18 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
+use App\Entity\Command;
 use App\Entity\Product;
 use App\Entity\Category;
 use Doctrine\DBAL\Connection;
+use App\Entity\ProductCommand;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\PotagerProvider;
-use App\Entity\User;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 
 class AppFixtures extends Fixture
 {
-
     private $connection;
 
     public function __construct(Connection $connection)
@@ -35,6 +35,8 @@ class AppFixtures extends Fixture
         $this->connection->executeQuery('TRUNCATE TABLE category');
         $this->connection->executeQuery('TRUNCATE TABLE product');
         $this->connection->executeQuery('TRUNCATE TABLE user');
+        $this->connection->executeQuery('TRUNCATE TABLE command');
+        $this->connection->executeQuery('TRUNCATE TABLE product_command');
         // etc.
     }
 
@@ -45,6 +47,7 @@ class AppFixtures extends Fixture
 
         $PotagerProvider = new PotagerProvider();
 
+        // insertion des catégories
         foreach($PotagerProvider->getCategories() as $this_category_array) {
             $category = new Category();
             if($this_category_array['parent_id'] == 0) {
@@ -60,6 +63,7 @@ class AppFixtures extends Fixture
             $manager->flush();
         }
 
+        // insertion des produits
         foreach ($PotagerProvider->getProducts() as $this_product_array) {
             $product = new Product();
             $product->setName($this_product_array['name']);
@@ -83,6 +87,7 @@ class AppFixtures extends Fixture
             $manager->flush();
         }
 
+        // insertion des utilisateurs
         foreach ($PotagerProvider->getUsers() as $this_user_array) {
             $user = new User();
             $user->setEmail($this_user_array['email']);
@@ -98,6 +103,40 @@ class AppFixtures extends Fixture
             $user->setPhone($this_user_array['phone']);
 
             $manager->persist($user);
+            $manager->flush();
+        }
+
+        // insertion des commandes et de leurs produits associés
+        foreach($PotagerProvider->getCommand() as $this_command) {
+            $command = new Command();
+            $command->setNumFact($this_command['num_fact']);
+            $command->setStatus($this_command['status']);
+            $command->setTotalHT($this_command['total_ht']);
+            $command->setTotalTTC($this_command['total_ttc']);
+            $command->setTotalTVA($this_command['total_tva']);
+            $command->setUpdatedAt($this_command['updated_at']);
+
+            $user = $manager->getRepository(User::class)->find($this_command['user_id']);
+            $command->setUser($user);
+            $manager->persist($command);
+
+            // on ajoute les produits à la commande dans product_command
+            $nbProductInCommand = mt_rand(1, 10);
+            for($i=0;$i<$nbProductInCommand;$i++) {
+                $ProductCommand = new ProductCommand();
+                $ProductCommand->setQuantity(mt_rand(1, 10));
+                $ProductCommand->setUnitPrice(mt_rand(20, 200)/10);
+                $ProductCommand->setTotalHT(mt_rand(30, 300)/10);
+                $ProductCommand->setTotalTTC(mt_rand(40, 400)/10);
+                $ProductCommand->setTotalTVA(mt_rand(10, 100)/10);
+                $ProductCommand->setCommand($command);
+
+                $product = $manager->getRepository(Product::class)->find(mt_rand(1, 133));
+                $ProductCommand->setProduct($product);
+
+                $manager->persist($ProductCommand);
+            }
+
             $manager->flush();
         }
     }
