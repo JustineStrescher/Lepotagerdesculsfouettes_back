@@ -30,7 +30,7 @@ class ProductController extends AbstractController
              // Les en-têtes de réponse à ajouter (aucune)
              [],
              // Les groupes à utiliser par le Serializer
-             ['groups' => 'products']
+            //  ['groups' => 'products']
         ]);
     }
 
@@ -50,9 +50,10 @@ class ProductController extends AbstractController
             $product,
             Response::HTTP_OK,
             [],
-            [
-                'groups' => [ 'product_info']
-            ]);
+            // [
+            //     'groups' => [ 'product_info']
+            // ]
+        );
     }
       /**
      * Get info lite one product
@@ -70,13 +71,14 @@ class ProductController extends AbstractController
             $product,
             Response::HTTP_OK,
             [],
-            [
-                'groups' => [ 'product_lite']
-            ]);
+            // [
+            //     'groups' => [ 'product_lite']
+            // ]
+        );
     }
      /**
      * Get selection product
-     * @Route("/api/highlighted}", name="api_product_highlighted", methods={"GET"})
+     * @Route("/api/highlighted", name="api_product_highlighted", methods={"GET"})
      */
     public function getProductHighlighted (ProductRepository $productRepository): Response
     {
@@ -86,9 +88,10 @@ class ProductController extends AbstractController
             $products,
             Response::HTTP_OK,
             [],
-            [
-                'groups' => [ 'product_lite']
-            ]);
+            // [
+            //     'groups' => [ 'product_lite']
+            // ]
+        );
     }
     /**
      * Appeller tous les produits d'une categorie
@@ -103,9 +106,12 @@ class ProductController extends AbstractController
             Response::HTTP_OK,
             [],
             [
-                'groups' => [ 'product_lite']
-            ]);
+                'groups' => [ 'get_product_lite']
+            ]
+        );
     }
+    
+    
 
     
     

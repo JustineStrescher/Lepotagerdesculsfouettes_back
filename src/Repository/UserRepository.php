@@ -41,9 +41,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT * 
-            FROM App\Entity\Commands
-            WHERE client_id = :id'
+            'SELECT c 
+            FROM App\Entity\Command c
+            WHERE c.user = :id'
             
         )->setParameter('id', $id);
         return $query->getResult();
@@ -54,9 +54,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT * 
-            FROM App\Entity\Client
-            WHERE client_id = :id'
+            'SELECT u 
+            FROM App\Entity\User u
+            WHERE u.id = :id'
 
         )->setParameter('id', $id);
         return $query->getResult();

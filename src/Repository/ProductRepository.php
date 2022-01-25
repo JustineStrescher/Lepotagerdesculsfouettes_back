@@ -24,9 +24,9 @@ class ProductRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT * 
-            FROM App\Entity\Product 
-            WHERE online = 1'
+            'SELECT p
+            FROM App\Entity\Product p
+            WHERE p.online = 1'
             
         );
         return $query->getResult();
@@ -44,9 +44,9 @@ class ProductRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT * 
-            FROM App\Entity\Product 
-            WHERE hihlighted = 1'
+            'SELECT p 
+            FROM App\Entity\Product p
+            WHERE p.hihlighted = 1'
             
         );
         return $query->getResult();
@@ -59,9 +59,9 @@ class ProductRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT * 
-            FROM App\Entity\Product 
-            WHERE category_id = :id'
+            'SELECT p 
+            FROM App\Entity\Product p
+            WHERE p.category = :id'
             
         )->setParameter('id', $id);
         return $query->getResult();

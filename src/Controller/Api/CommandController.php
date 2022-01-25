@@ -11,7 +11,7 @@ class CommandController extends AbstractController
 {
     /**
      * Returns the detail of an command
-     * @Route("/api/command/{id<\d+>}", name="api_command_id", methods={"GET"})
+     * @Route("/api/command/info/{id<\d+>}", name="api_command_info", methods={"GET"})
      */
     public function getDetailCommand(Command $command): Response
     {
@@ -25,9 +25,9 @@ class CommandController extends AbstractController
             $command,
             Response::HTTP_OK,
             [],
-            [
-                'groups' => [ 'command_info']
-            ]
+            // [
+            //     'groups' => [ 'command_info']
+            // ]
         );
     }
 }

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserController extends AbstractController
@@ -40,9 +41,10 @@ class UserController extends AbstractController
             $client,
             Response::HTTP_OK,
             [],
-            [
-                'groups' => [ 'client_id']
-            ]);
+            // [
+            //     'groups' => [ 'client_id']
+            // ]
+        );
 
     }
      /**
@@ -61,9 +63,10 @@ class UserController extends AbstractController
             $user,
             Response::HTTP_OK,
             [],
-            [
-                'groups' => [ 'user_info']
-            ]);
+            // [
+            //     'groups' => [ 'user_info']
+            // ]
+        );
     }
      /**
      * 
@@ -74,13 +77,14 @@ class UserController extends AbstractController
      * 
      * @Route("/api/client/{id<\d+>}", name="api_client_id_post", methods={"POST"})
      */
-    public function postClientId(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine)
+    public function postClientId(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, User $user)
     {
         //Récuperer le contenu JSON
         $jsonContent=$request->getContent();
 
-        //Désérialiser (convertir) le JSON en entité Doctrine User
-        $user = $serializer->deserialize($jsonContent, User::class, 'json');
+        //Mise à jour de l'entité User
+        $serializer->deserialize($jsonContent, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
+       
 
         //Validé l'entité
 
