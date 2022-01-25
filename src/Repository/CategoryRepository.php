@@ -26,7 +26,7 @@ class CategoryRepository extends ServiceEntityRepository
     public function findMainCategories()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.parent_id = 0')
+            ->andWhere('c.parent IS NULL')
             ->orderBy('c.id', 'ASC')
             ->getQuery()
             ->getResult()
@@ -37,7 +37,7 @@ class CategoryRepository extends ServiceEntityRepository
     {
         // returns an array of Movie objects
         return $this->createQueryBuilder('c')
-            ->andWhere('c.parent_id = :val')
+            ->andWhere('c.parent = :val')
             ->setParameter('val', $value)
             ->orderBy('c.id', 'ASC')
             ->getQuery()
@@ -49,7 +49,7 @@ class CategoryRepository extends ServiceEntityRepository
     {
         // returns an array of Movie objects
         return $this->createQueryBuilder('c')
-            ->select('c.parent_id')
+        ->select('IDENTITY(c.parent)')
             ->andWhere('c.id = :val')
             ->setParameter('val', $value)
             ->orderBy('c.id', 'ASC')

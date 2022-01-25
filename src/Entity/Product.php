@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -22,6 +23,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=32)
+     * @Groups({"get_product_lite"})
      */
     private $name;
 
@@ -32,6 +34,7 @@ class Product
 
     /**
      * @ORM\Column(type="smallint")
+     * @Groups({"get_product_lite"})
      */
     private $available;
 
@@ -47,16 +50,19 @@ class Product
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"get_product_lite"})
      */
     private $unitPrice;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"get_product_lite"})
      */
     private $weightPrice;
 
     /**
      * @ORM\Column(type="string", length=2083, nullable=true)
+     * @Groups({"get_product_lite"})
      */
     private $picture;
 

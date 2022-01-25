@@ -45,7 +45,7 @@ class CategoryController extends AbstractController
             // Les en-têtes de réponse à ajouter (aucune)
             [],
             // Les groupes à utiliser par le Serializer
-            ['groups' => 'get_category']
+            ['groups' => 'get_categories']
         );
     }
 
@@ -67,7 +67,7 @@ class CategoryController extends AbstractController
             // Les en-têtes de réponse à ajouter (aucune)
             [],
             // Les groupes à utiliser par le Serializer
-            ['groups' => 'get_ariane_category']
+            // ['groups' => 'get_ariane_category']
         );
     }
 

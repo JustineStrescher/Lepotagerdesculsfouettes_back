@@ -18,6 +18,56 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
+    public function findByOnline()
+    {
+        //j'appelle doctrine pour me permettre de faire ma requète
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Product p
+            WHERE p.online = 1'
+            
+        );
+        return $query->getResult();
+        
+        
+    }
+
+     /**
+     * Récupère les produits avec la mention higlighted
+     * en DQL
+     */
+    public function findByHighlighted()
+    {
+        //j'appelle doctrine pour me permettre de faire ma requète
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p 
+            FROM App\Entity\Product p
+            WHERE p.hihlighted = 1'
+            
+        );
+        return $query->getResult();
+        
+        
+    }
+    public function findByCategoryId($id)
+    {
+        //j'appelle doctrine pour me permettre de faire ma requète
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p 
+            FROM App\Entity\Product p
+            WHERE p.category = :id'
+            
+        )->setParameter('id', $id);
+        return $query->getResult();
+        
+        
+    }
 
     // /**
     //  * @return Product[] Returns an array of Product objects
