@@ -54,7 +54,8 @@ class CategoryController extends AbstractController
      */
     public function getBreadCrumbJson($id, CategoryRepository $categoryRepository): Response
     {
-        $categoriesArray = $this->getBreadCrumb($id, $categoryRepository);
+        $categoriesArray = $this->getArboList($id, $categoryRepository);
+        dd($categoriesArray);
         $subCategories = '';
         foreach($categoriesArray as $this_category) {
             $subCategories .= ' > ' . $this_category;
@@ -76,13 +77,14 @@ class CategoryController extends AbstractController
      * recursive function for breadcrumb
      * 
      */
-    public function getBreadCrumb($id, $categoryRepository): array
+    public function getArboList($id, $categoryRepository, $output_array = array())
     {
-        $output_array = array();
         $ParentCategory = $categoryRepository->findParentCategory($id);
-        if ($ParentCategory->parent_id != 0) {
-            $output_array[] = $this->getBreadCrumb($ParentCategory->parent_id, $categoryRepository);
+        $output_array[] = $ParentCategory['parent_id'];
+        if ($ParentCategory['parent_id'] !== null) {
+            return $this->getArboList($ParentCategory['parent_id'], $categoryRepository, $output_array);
+        } else {
+            return $output_array;
         }
-        return $output_array;
     }
 }
