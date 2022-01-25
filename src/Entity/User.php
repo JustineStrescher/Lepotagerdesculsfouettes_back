@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -24,11 +25,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"client_id", "user_info"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"client_id", "user_info"})
      */
     private $roles = [];
 
@@ -40,31 +43,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"client_id", "user_info"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"client_id", "user_info"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=1000)
+     * @Groups({"client_id", "user_info"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Groups({"client_id", "user_info"})
      */
     private $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"client_id", "user_info"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"client_id", "user_info"})
      */
     private $country;
 
@@ -80,11 +89,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"client_id", "user_info"})
      */
     private $phone;
 
     /**
      * @ORM\OneToMany(targetEntity=Command::class, mappedBy="user")
+     * 
      */
     private $commands;
 

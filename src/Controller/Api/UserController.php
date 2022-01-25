@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserController extends AbstractController
 {
     /**
-     * 
+     * Retourne la liste des commandes passées de l'utilisateur
      * @Route("/api/client/{id<\d+>}/commands", name="api_client_commands", methods={"GET"})
      */
     public function getClientIdCommands(UserRepository $userRepository, $id): Response
@@ -31,7 +31,7 @@ class UserController extends AbstractController
             ]);
     }
     /**
-     * 
+     * Retourne le détails d'un utilisateur
      * @Route("/api/client/{id<\d+>}", name="api_client_get", methods={"GET"})
      */
     public function getClientId(UserRepository $userRepository, $id){
@@ -41,14 +41,14 @@ class UserController extends AbstractController
             $client,
             Response::HTTP_OK,
             [],
-            // [
-            //     'groups' => [ 'client_id']
-            // ]
+            [
+                'groups' => [ 'client_id']
+            ]
         );
 
     }
      /**
-     * 
+     * Retourne les info du compte utilisateur
      * @Route("/api/client/{id<\d+>}/info", name="api_client_info", methods={"GET"})
      */
     public function getItemClient(User $user = null): Response
@@ -63,9 +63,9 @@ class UserController extends AbstractController
             $user,
             Response::HTTP_OK,
             [],
-            // [
-            //     'groups' => [ 'user_info']
-            // ]
+            [
+                'groups' => [ 'user_info']
+            ]
         );
     }
      /**

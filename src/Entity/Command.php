@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommandRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CommandRepository::class)
@@ -27,6 +28,7 @@ class Command
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"command_info", "client_commands"})
      */
     private $status;
 
@@ -37,11 +39,13 @@ class Command
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"command_info", "client_commands"})
      */
     private $creationAt;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"command_info", "client_commands"})
      */
     private $totalTTC;
 
@@ -57,6 +61,7 @@ class Command
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commands")
+     * 
      */
     private $user;
 

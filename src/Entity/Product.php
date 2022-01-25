@@ -23,46 +23,49 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Groups({"get_product_lite"})
+     * @Groups({"get_product_lite", "product","product_info"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"product","product_info"})
      */
     private $summary;
 
     /**
      * @ORM\Column(type="smallint")
-     * @Groups({"get_product_lite"})
+     * @Groups({"get_product_lite", "product", "product_info"}))
      */
     private $available;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"product", "product_info"})
      */
     private $stock;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"product", "product_info"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Groups({"get_product_lite"})
+     * @Groups({"get_product_lite", "product","product_info" })
      */
     private $unitPrice;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Groups({"get_product_lite"})
+     * @Groups({"get_product_lite", "product", "product_info"})
      */
     private $weightPrice;
 
     /**
      * @ORM\Column(type="string", length=2083, nullable=true)
-     * @Groups({"get_product_lite"})
+     * @Groups({"get_product_lite", "product", "product_info"})
      */
     private $picture;
 
@@ -93,11 +96,13 @@ class Product
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+     * 
      */
     private $online;
 
     /**
      * @ORM\OneToMany(targetEntity=ProductCommand::class, mappedBy="product", orphanRemoval=true)
+     * 
      */
     private $productCommands;
 

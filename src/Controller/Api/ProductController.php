@@ -30,11 +30,12 @@ class ProductController extends AbstractController
              // Les en-têtes de réponse à ajouter (aucune)
              [],
              // Les groupes à utiliser par le Serializer
-            //  ['groups' => 'products']
+             ['groups' => 'product']
         ]);
     }
 
      /**
+      * Retourne la liste complète des infos d'un produit
      * Get info one product
      * @Route("/api/product/{id<\d+>}/info", name="api_product_info", methods={"GET"})
      */
@@ -50,9 +51,9 @@ class ProductController extends AbstractController
             $product,
             Response::HTTP_OK,
             [],
-            // [
-            //     'groups' => [ 'product_info']
-            // ]
+            [
+                'groups' => [ 'product_info']
+            ]
         );
     }
       /**
@@ -71,9 +72,9 @@ class ProductController extends AbstractController
             $product,
             Response::HTTP_OK,
             [],
-            // [
-            //     'groups' => [ 'product_lite']
-            // ]
+            [
+                'groups' => [ 'get_product_lite']
+            ]
         );
     }
      /**
@@ -88,9 +89,9 @@ class ProductController extends AbstractController
             $products,
             Response::HTTP_OK,
             [],
-            // [
-            //     'groups' => [ 'product_lite']
-            // ]
+            [
+                'groups' => [ 'get_product_lite']
+            ]
         );
     }
     /**
