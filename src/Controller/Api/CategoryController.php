@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CategoryController extends AbstractController
 {
     /**
+     * Retourne la liste des categories de produit
      * @Route("/api/category", name="api_categories", methods={"GET"})
      */
     public function getMainCategories(CategoryRepository $categoryRepository): Response
@@ -31,6 +32,7 @@ class CategoryController extends AbstractController
     }
     
     /**
+     * retourne la liste des catégories filles d'une categorie données
      * @Route("/api/category/subcategory/{id<\d+>}", name="api_sub_categories", methods={"GET"})
      */
     public function getSubCategories($id, CategoryRepository $categoryRepository): Response

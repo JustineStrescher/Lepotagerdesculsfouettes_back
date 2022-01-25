@@ -29,9 +29,9 @@ class CommandController extends AbstractController
             $command,
             Response::HTTP_OK,
             [],
-            // [
-            //     'groups' => [ 'command_info']
-            // ]
+            [
+                'groups' => [ 'command_info']
+            ]
         );
     }
   
