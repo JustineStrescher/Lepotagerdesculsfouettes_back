@@ -30,7 +30,7 @@ class ProductController extends AbstractController
              // Les en-têtes de réponse à ajouter (aucune)
              [],
              // Les groupes à utiliser par le Serializer
-             ['groups' => 'product']
+             ['groups' => ['product']]
         ]);
     }
 
