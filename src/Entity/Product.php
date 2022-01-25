@@ -35,7 +35,7 @@ class Product
 
     /**
      * @ORM\Column(type="smallint")
-     * @Groups({"get_product_lite", "product", "product_info"}))
+     * @Groups({"get_product_lite", "product", "product_info"})
      */
     private $available;
 
