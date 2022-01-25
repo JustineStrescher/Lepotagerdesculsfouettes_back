@@ -22,7 +22,7 @@ class ProductController extends AbstractController
         // On va chercher les données
         $productsList = $productRepository->findByOnline();
 
-        return $this->json([
+        return $this->json(
              // Les données à sérialiser (à convertir en JSON)
              $productsList,
              // Le status code
@@ -30,8 +30,9 @@ class ProductController extends AbstractController
              // Les en-têtes de réponse à ajouter (aucune)
              [],
              // Les groupes à utiliser par le Serializer
-             ['groups' => ['product']]
-        ]);
+             [
+                 'groups' => ['product']]
+        );
     }
 
      /**
