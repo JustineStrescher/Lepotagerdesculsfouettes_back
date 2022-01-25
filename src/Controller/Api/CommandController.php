@@ -3,9 +3,12 @@
 namespace App\Controller\Api;
 
 use App\Entity\Command;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CommandController extends AbstractController
 {
@@ -15,6 +18,7 @@ class CommandController extends AbstractController
      */
     public function getDetailCommand(Command $command): Response
     {
+        
         // 404 ?
         if ($command === null) {
             return $this->json(['error' => 'Commande non trouvé.'], Response::HTTP_NOT_FOUND);
@@ -30,4 +34,5 @@ class CommandController extends AbstractController
             // ]
         );
     }
+  
 }
