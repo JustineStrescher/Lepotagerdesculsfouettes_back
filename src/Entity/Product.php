@@ -96,11 +96,13 @@ class Product
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+     * 
      */
     private $online;
 
     /**
      * @ORM\OneToMany(targetEntity=ProductCommand::class, mappedBy="product", orphanRemoval=true)
+     * 
      */
     private $productCommands;
 
