@@ -64,7 +64,7 @@ class UserController extends AbstractController
             Response::HTTP_OK,
             [],
             [
-                'groups' => [ 'user_info']
+                'groups' => [ 'client_id']
             ]
         );
     }
@@ -74,7 +74,7 @@ class UserController extends AbstractController
      */
 
      /**
-     * 
+     * sauvgarde les modification du compte utilisateur
      * @Route("/api/client/{id<\d+>}", name="api_client_id_post", methods={"POST"})
      */
     public function postClientId(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, User $user)
@@ -103,7 +103,9 @@ class UserController extends AbstractController
             Response::HTTP_OK,
             
             //Groups
-            ['groups' => 'client_id']
+            [
+                'groups' => [ 'client_id']
+            ]
         );
     }
     /**
@@ -135,7 +137,9 @@ class UserController extends AbstractController
             Response::HTTP_CREATED,
             
             //Groups
-            ['groups' => 'client_register']
+            [
+                'groups' => [ 'client_id']
+            ]
         );
     }
 }
