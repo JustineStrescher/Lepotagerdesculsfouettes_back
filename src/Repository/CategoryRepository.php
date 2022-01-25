@@ -49,7 +49,7 @@ class CategoryRepository extends ServiceEntityRepository
     {
         // returns an array of Movie objects
         return $this->createQueryBuilder('c')
-        ->select('IDENTITY(c.parent) AS parent_id')
+        ->select('IDENTITY(c.parent) AS parent_id, c.slug')
             ->andWhere('c.id = :val')
             ->setParameter('val', $value)
             ->orderBy('c.id', 'ASC')

@@ -55,10 +55,10 @@ class CategoryController extends AbstractController
     public function getBreadCrumbJson($id, CategoryRepository $categoryRepository): Response
     {
         $categoriesArray = $this->getArboList($id, $categoryRepository);
-        dd($categoriesArray);
+        $reversed = array_reverse($categoriesArray);
         $subCategories = '';
-        foreach($categoriesArray as $this_category) {
-            $subCategories .= ' > ' . $this_category;
+        foreach($reversed as $slug=>$this_category) {
+            $subCategories .= ' > ' . $slug;
         }
         return $this->json(
             // Les données à sérialiser (à convertir en JSON)
@@ -80,7 +80,7 @@ class CategoryController extends AbstractController
     public function getArboList($id, $categoryRepository, $output_array = array())
     {
         $ParentCategory = $categoryRepository->findParentCategory($id);
-        $output_array[] = $ParentCategory['parent_id'];
+        $output_array[$ParentCategory['slug']] = $ParentCategory['parent_id'];
         if ($ParentCategory['parent_id'] !== null) {
             return $this->getArboList($ParentCategory['parent_id'], $categoryRepository, $output_array);
         } else {
