@@ -86,6 +86,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"get_product_lite", "product", "product_info"})
      */
     private $slug;
 

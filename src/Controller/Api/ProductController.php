@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Product;
 use App\Service\Arborescence;
 use App\Repository\ProductRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -43,7 +44,7 @@ class ProductController extends AbstractController
     }
 
     /**
-      * Retourne la liste complète des infos d'un produit
+     * Retourne la liste complète des infos d'un produit
      * Get info one product
      * @Route("/api/product/{id<\d+>}/info", name="api_product_info", methods={"GET"})
      */
@@ -61,12 +62,10 @@ class ProductController extends AbstractController
         );
 
         // code pour enrichir le json avec l'arborescence de catégorie
-        $productsArray = json_decode($json);
+        $thisProduct = json_decode($json);
         $productsArrayToJson = array();
-        foreach($productsArray as $thisProduct) {
-            $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
-            $productsArrayToJson[] = $thisProduct;
-        }
+        $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
+        $productsArrayToJson[] = $thisProduct;
         return $this->json(
             $productsArrayToJson,
             Response::HTTP_OK
@@ -91,12 +90,10 @@ class ProductController extends AbstractController
         );
 
         // code pour enrichir le json avec l'arborescence de catégorie
-        $productsArray = json_decode($json);
+        $thisProduct = json_decode($json);
         $productsArrayToJson = array();
-        foreach($productsArray as $thisProduct) {
-            $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
-            $productsArrayToJson[] = $thisProduct;
-        }
+        $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
+        $productsArrayToJson[] = $thisProduct;
         return $this->json(
             $productsArrayToJson,
             Response::HTTP_OK
@@ -131,10 +128,10 @@ class ProductController extends AbstractController
     }
 
     /**
-     * Appeller tous les produits d'une categorie
+     * Retourne tous les produits et les catégories d'une categorie donnée
      * @Route("/api/category/{id<\d+>}", name="api_category", methods={"GET"})
      */
-    public function getCategory(ProductRepository $productRepository, $id, SerializerInterface $serializer, Arborescence $Arborescence): Response
+    public function getCategory(ProductRepository $productRepository, CategoryRepository $categoryRepository, $id, SerializerInterface $serializer, Arborescence $Arborescence): Response
     {
         $products=$productRepository->findByCategoryId($id);
         $json = $serializer->serialize(
@@ -142,6 +139,7 @@ class ProductController extends AbstractController
             'json',
             ['groups' => 'get_product_lite']
         );
+
         // code pour enrichir le json avec l'arborescence de catégorie
         $productsArray = json_decode($json);
         $productsArrayToJson = array();
@@ -149,8 +147,25 @@ class ProductController extends AbstractController
             $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
             $productsArrayToJson[] = $thisProduct;
         }
+
+        // Récupération des catégories à envoyer dans le JSON également
+        $subCategories = $categoryRepository->findSubCategories($id);
+        $json = $serializer->serialize(
+            $subCategories,
+            'json',
+            ['groups' => 'get_categories']
+        );
+
+        // code pour enrichir le json avec l'arborescence de catégorie
+        $categoriesArray = json_decode($json);
+        $categoriesArrayToJson = array();
+        foreach($categoriesArray as $thisCategory) {
+            $thisCategory->arborescence = $Arborescence->getArboCat($thisCategory->id);
+            $categoriesArrayToJson[] = $thisCategory;
+        }
+
         return $this->json(
-            $productsArrayToJson,
+            array('categories'=>$categoriesArrayToJson, 'products'=>$productsArrayToJson),
             Response::HTTP_OK
         );
     }

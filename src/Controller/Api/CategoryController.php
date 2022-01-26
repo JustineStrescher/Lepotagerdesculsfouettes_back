@@ -32,31 +32,6 @@ class CategoryController extends AbstractController
             ['groups' => 'get_categories']
         );
     }
-    
-    /**
-     * retourne la liste des catégories filles d'une categorie données
-     * @Route("/api/category/subcategory/{id<\d+>}", name="api_sub_categories", methods={"GET"})
-     */
-    public function getSubCategories($id, CategoryRepository $categoryRepository, SerializerInterface $serializer, Arborescence $Arborescence): Response
-    {
-        $subCategories = $categoryRepository->findSubCategories($id);
-        $json = $serializer->serialize(
-            $subCategories,
-            'json',
-            ['groups' => 'get_categories']
-        );
-        // code pour enrichir le json avec l'arborescence de catégorie
-        $categoriesArray = json_decode($json);
-        $categoriesArrayToJson = array();
-        foreach($categoriesArray as $thisCategory) {
-            $thisCategory->arborescence = $Arborescence->getArboCat($thisCategory->id);
-            $categoriesArrayToJson[] = $thisCategory;
-        }
-        return $this->json(
-            $categoriesArrayToJson,
-            Response::HTTP_OK
-        );
-    }
 
     /**
      * @Route("/api/ariane/{id<\d+>}", name="api_ariane", methods={"GET"})
