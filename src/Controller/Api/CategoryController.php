@@ -3,9 +3,11 @@
 namespace App\Controller\Api;
 
 use App\Entity\Category;
+use App\Service\Arborescence;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategoryController extends AbstractController
@@ -30,33 +32,13 @@ class CategoryController extends AbstractController
             ['groups' => 'get_categories']
         );
     }
-    
-    /**
-     * retourne la liste des catégories filles d'une categorie données
-     * @Route("/api/category/subcategory/{id<\d+>}", name="api_sub_categories", methods={"GET"})
-     */
-    public function getSubCategories($id, CategoryRepository $categoryRepository): Response
-    {
-        $subCategories = $categoryRepository->findSubCategories($id);
- 
-        return $this->json(
-            // Les données à sérialiser (à convertir en JSON)
-            $subCategories,
-            // Le status code
-            200,
-            // Les en-têtes de réponse à ajouter (aucune)
-            [],
-            // Les groupes à utiliser par le Serializer
-            ['groups' => 'get_categories']
-        );
-    }
 
     /**
      * @Route("/api/ariane/{id<\d+>}", name="api_ariane", methods={"GET"})
      */
-    public function getBreadCrumbJson($id, CategoryRepository $categoryRepository): Response
+    public function getBreadCrumbJson($id, Arborescence $Arborescence): Response
     {
-        $categoriesArray = $this->getArboList($id, $categoryRepository);
+        $categoriesArray = $Arborescence->getArboCat($id);
         $reversed = array_reverse($categoriesArray);
         $subCategories = '';
         foreach($reversed as $slug=>$this_category) {
@@ -73,19 +55,4 @@ class CategoryController extends AbstractController
         );
     }
 
-    /**
-     * 
-     * recursive function for breadcrumb
-     * 
-     */
-    public function getArboList($id, $categoryRepository, $output_array = array())
-    {
-        $ParentCategory = $categoryRepository->findParentCategory($id);
-        $output_array[$ParentCategory['slug']] = $ParentCategory['parent_id'];
-        if ($ParentCategory['parent_id'] !== null) {
-            return $this->getArboList($ParentCategory['parent_id'], $categoryRepository, $output_array);
-        } else {
-            return $output_array;
-        }
-    }
 }

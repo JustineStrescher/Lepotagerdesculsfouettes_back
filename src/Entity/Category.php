@@ -17,6 +17,8 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"get_product_lite", "product", "product_info"})
+     * @Groups({"get_categories"})
      */
     private $id;
 
@@ -65,6 +67,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"get_categories"})
      */
     private $slug;
 

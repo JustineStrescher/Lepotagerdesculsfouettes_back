@@ -86,6 +86,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"get_product_lite", "product", "product_info"})
      */
     private $slug;
 
@@ -108,6 +109,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
+     * @Groups({"get_product_lite", "product", "product_info"})
      */
     private $category;
 
