@@ -14,7 +14,7 @@ Class Arborescence {
     public function getArboCat($id, $output_array = array())
     {
         $ParentCategory = $this->categoryRepository->findParentCategory($id);
-        $output_array[$ParentCategory['slug']] = $ParentCategory['parent_id'];
+        $output_array[$ParentCategory['slug']] = $id;
         if ($ParentCategory['parent_id'] !== null) {
             return $this->getArboCat($ParentCategory['parent_id'], $output_array);
         } else {

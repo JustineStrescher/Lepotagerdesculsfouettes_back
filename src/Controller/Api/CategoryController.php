@@ -7,6 +7,7 @@ use App\Service\Arborescence;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategoryController extends AbstractController
@@ -36,19 +37,24 @@ class CategoryController extends AbstractController
      * retourne la liste des catégories filles d'une categorie données
      * @Route("/api/category/subcategory/{id<\d+>}", name="api_sub_categories", methods={"GET"})
      */
-    public function getSubCategories($id, CategoryRepository $categoryRepository): Response
+    public function getSubCategories($id, CategoryRepository $categoryRepository, SerializerInterface $serializer, Arborescence $Arborescence): Response
     {
         $subCategories = $categoryRepository->findSubCategories($id);
- 
-        return $this->json(
-            // Les données à sérialiser (à convertir en JSON)
+        $json = $serializer->serialize(
             $subCategories,
-            // Le status code
-            200,
-            // Les en-têtes de réponse à ajouter (aucune)
-            [],
-            // Les groupes à utiliser par le Serializer
+            'json',
             ['groups' => 'get_categories']
+        );
+        // code pour enrichir le json avec l'arborescence de catégorie
+        $categoriesArray = json_decode($json);
+        $categoriesArrayToJson = array();
+        foreach($categoriesArray as $thisCategory) {
+            $thisCategory->arborescence = $Arborescence->getArboCat($thisCategory->id);
+            $categoriesArrayToJson[] = $thisCategory;
+        }
+        return $this->json(
+            $categoriesArrayToJson,
+            Response::HTTP_OK
         );
     }
 

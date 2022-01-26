@@ -108,6 +108,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
+     * @Groups({"get_product_lite", "product", "product_info"})
      */
     private $category;
 
