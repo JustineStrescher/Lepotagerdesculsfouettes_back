@@ -70,8 +70,7 @@ class CategoryController extends AbstractController
             200,
             // Les en-têtes de réponse à ajouter (aucune)
             [],
-            // Les groupes à utiliser par le Serializer
-            // ['groups' => 'get_ariane_category']
+           
         );
     }
 
