@@ -17,9 +17,25 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        # On place les deux fierwalls de LexiJWT avant notre firexall "main"
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        # Le firewall de notre API    => à adapter selon nos besoins     
+        api:
+            pattern:   ^/api
+            stateless: true
+            jwt: ~
         main:
             lazy: true
             provider: app_user_provider
+            
+            
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -32,6 +48,12 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+        # Les Acl de notre API
+        # Login toujours accessible
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        # l'API nécessite une authentification sur les User
+        - { path: ^/api/client,       roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:
