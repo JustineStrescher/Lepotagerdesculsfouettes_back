@@ -20,7 +20,7 @@ final class Version20220124202835 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE category DROP FOREIGN KEY category_ibfk_2');
+        $this->addSql('ALTER TABLE category DROP FOREIGN KEY FK_64C19C1727ACA70');
         $this->addSql('ALTER TABLE category ADD CONSTRAINT FK_64C19C1727ACA70 FOREIGN KEY (parent_id) REFERENCES category (id) ON DELETE SET NULL');
     }
 
@@ -28,6 +28,6 @@ final class Version20220124202835 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE category DROP FOREIGN KEY FK_64C19C1727ACA70');
-        $this->addSql('ALTER TABLE category ADD CONSTRAINT category_ibfk_2 FOREIGN KEY (parent_id) REFERENCES category (id)');
+        $this->addSql('ALTER TABLE category ADD CONSTRAINT FK_64C19C1727ACA70 FOREIGN KEY (parent_id) REFERENCES category (id)');
     }
 }
