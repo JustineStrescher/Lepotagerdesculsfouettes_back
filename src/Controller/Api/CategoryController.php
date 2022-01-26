@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\Category;
+use App\Service\Arborescence;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,9 +55,9 @@ class CategoryController extends AbstractController
     /**
      * @Route("/api/ariane/{id<\d+>}", name="api_ariane", methods={"GET"})
      */
-    public function getBreadCrumbJson($id, CategoryRepository $categoryRepository): Response
+    public function getBreadCrumbJson($id, Arborescence $Arborescence): Response
     {
-        $categoriesArray = $this->getArboList($id, $categoryRepository);
+        $categoriesArray = $Arborescence->getArboCat($id);
         $reversed = array_reverse($categoriesArray);
         $subCategories = '';
         foreach($reversed as $slug=>$this_category) {
@@ -74,19 +75,4 @@ class CategoryController extends AbstractController
         );
     }
 
-    /**
-     * 
-     * recursive function for breadcrumb
-     * 
-     */
-    public function getArboList($id, $categoryRepository, $output_array = array())
-    {
-        $ParentCategory = $categoryRepository->findParentCategory($id);
-        $output_array[$ParentCategory['slug']] = $ParentCategory['parent_id'];
-        if ($ParentCategory['parent_id'] !== null) {
-            return $this->getArboList($ParentCategory['parent_id'], $categoryRepository, $output_array);
-        } else {
-            return $output_array;
-        }
-    }
 }
