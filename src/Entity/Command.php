@@ -75,6 +75,9 @@ class Command
         $this->productCommands = new ArrayCollection();
         $this->creationAt = new DateTime();
     }
+    public function __toString() {
+        return $this->id;
+    }
 
     public function getId(): ?int
     {

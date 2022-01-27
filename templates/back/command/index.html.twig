@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Command index{% endblock %}
+
+{% block body %}
+    <h1>Command index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NumFact</th>
+                <th>Status</th>
+                <th>UpdatedAt</th>
+                <th>CreationAt</th>
+                <th>TotalTTC</th>
+                <th>TotalHT</th>
+                <th>TotalTVA</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for command in commands %}
+            <tr>
+                <td>{{ command.id }}</td>
+                <td>{{ command.numFact }}</td>
+                <td>{{ command.status }}</td>
+                <td>{{ command.updatedAt ? command.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ command.creationAt ? command.creationAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ command.totalTTC }}</td>
+                <td>{{ command.totalHT }}</td>
+                <td>{{ command.totalTVA }}</td>
+                <td>
+                    <a href="{{ path('back_command_show', {'id': command.id}) }}">show</a>
+                    <a href="{{ path('back_command_edit', {'id': command.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('back_command_new') }}">Create new</a>
+{% endblock %}
