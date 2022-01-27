@@ -70,8 +70,8 @@ class AppFixtures extends Fixture
             $product->setName($this_product_array['name']);
             $product->setSlug($this_product_array['slug']);
             $product->setWeight($this_product_array['weight']);
-            $product->setWeightPrice($this_product_array['weight_price']);
-            $product->setUnitPrice($this_product_array['unit_price']);
+            $product->setPrice($this_product_array['price']);
+            $product->setUnitType($this_product_array['unit_type']);
             $product->setHihlighted($this_product_array['hihlighted']);
             $product->setOnline($this_product_array['online']);
             $product->setStock($this_product_array['stock']);
