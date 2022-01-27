@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ProductCommand index{% endblock %}
+
+{% block body %}
+    <h1>ProductCommand index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Quantity</th>
+                <th>UnitPrice</th>
+                <th>TotalTTC</th>
+                <th>TotalHT</th>
+                <th>TotalTVA</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product_command in product_commands %}
+            <tr>
+                <td>{{ product_command.id }}</td>
+                <td>{{ product_command.quantity }}</td>
+                <td>{{ product_command.unitPrice }}</td>
+                <td>{{ product_command.totalTTC }}</td>
+                <td>{{ product_command.totalHT }}</td>
+                <td>{{ product_command.totalTVA }}</td>
+                <td>
+                    <a href="{{ path('back_product_command_show', {'id': product_command.id}) }}">show</a>
+                    <a href="{{ path('back_product_command_edit', {'id': product_command.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('back_product_command_new') }}">Create new</a>
+{% endblock %}
