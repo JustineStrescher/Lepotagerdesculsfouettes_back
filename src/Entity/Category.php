@@ -77,6 +77,9 @@ class Category
         $this->categories = new ArrayCollection();
         $this->creationAt = new DateTime();
     }
+    public function __toString() {
+        return $this->name;
+    }
 
     public function getId(): ?int
     {
