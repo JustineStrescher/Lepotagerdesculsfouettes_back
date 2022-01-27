@@ -53,14 +53,7 @@ class PotagerProvider
                 for($j=0;$j<=6;$j++) {
                     // 6 produits par catégorie
 
-                    // On attribut aléatoirement les prix au poids ou à l'unité.
-                    if(mt_rand(1, 2) == 1) {
-                        $unit_price = $this->faker->randomFloat(1, 1, 20);
-                        $weight_price = 0;
-                    } else {
-                        $unit_price = 0;
-                        $weight_price = $this->faker->randomFloat(1, 1, 20);
-                    }
+                   
                     // On spécifie le nom, que l'on sluggify dans la foulée.
                     $productName = $this->faker->unique()->words(2, true);
                     $slug = $this->slugger->slug($productName);
@@ -75,8 +68,8 @@ class PotagerProvider
                         'description' =>  $this->faker->paragraph(),
                         'picture' => 'https://picsum.photos/id/'.mt_rand(1, 100).'/300/450',
                         'categorie_id' => $i,
-                        'unit_price' => $unit_price, 
-                        'weight_price' => $weight_price,
+                        'unit_type' => $this->faker->randomElement([1, 0]), 
+                        'price' => $this->faker->randomFloat(1, 1, 20),
                         'weight' => $this->faker->randomNumber(4, false),
                         'updated_at' => $this->faker->dateTimeBetween('-2 week', '-1 week')
                     );

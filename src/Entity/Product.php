@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -51,17 +51,7 @@ class Product
      */
     private $description;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     * @Groups({"get_product_lite", "product","product_info" })
-     */
-    private $unitPrice;
-
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     * @Groups({"get_product_lite", "product", "product_info"})
-     */
-    private $weightPrice;
+     
 
     /**
      * @ORM\Column(type="string", length=2083, nullable=true)
@@ -112,6 +102,18 @@ class Product
      * @Groups({"get_product_lite", "product", "product_info"})
      */
     private $category;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Groups({"get_product_lite", "product", "product_info"})
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="smallint", options={"default":0})
+     * @Groups({"get_product_lite", "product", "product_info"})
+     */
+    private $unitType;
 
     public function __construct()
     {
@@ -184,29 +186,7 @@ class Product
         return $this;
     }
 
-    public function getUnitPrice(): ?float
-    {
-        return $this->unitPrice;
-    }
-
-    public function setUnitPrice(?float $unitPrice): self
-    {
-        $this->unitPrice = $unitPrice;
-
-        return $this;
-    }
-
-    public function getWeightPrice(): ?float
-    {
-        return $this->weightPrice;
-    }
-
-    public function setWeightPrice(?float $weightPrice): self
-    {
-        $this->weightPrice = $weightPrice;
-
-        return $this;
-    }
+ 
 
     public function getPicture(): ?string
     {
@@ -330,6 +310,30 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getUnitType(): ?int
+    {
+        return $this->unitType;
+    }
+
+    public function setUnitType(int $unitType): self
+    {
+        $this->unitType = $unitType;
 
         return $this;
     }
