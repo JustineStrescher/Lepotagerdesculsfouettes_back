@@ -58,6 +58,9 @@ class ProductCommand
     {
         return $this->id;
     }
+    public function __toString() {
+        return $this->id;
+    }
 
     public function getQuantity(): ?float
     {
