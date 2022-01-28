@@ -104,6 +104,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->commands = new ArrayCollection();
         $this->creationAt = new DateTime();
     }
+    
     public function __toString() {
         return $this->email;
     }
