@@ -4,12 +4,13 @@ namespace App\Controller\Back;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Service\FileUploader;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/back/category")
@@ -61,12 +62,17 @@ class CategoryController extends AbstractController
     /**
      * @Route("/{id}/edit", name="back_category_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Category $category, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Category $category, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                $pictureFileName = $fileUploader->upload($pictureFile);
+                $category->setPicture($pictureFileName);
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('back_category_index', [], Response::HTTP_SEE_OTHER);
