@@ -1,33 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Index des catégories{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1 class="text-center ">Index des catégories</h1>
+    <h1 class="text-center">Index des catégories</h1>
+
+    <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_category_new') }}">Ajouter une categorie</a>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Picture</th>
-                <th>Color</th>
-                <th>UpdatedAt</th>
-                <th>CreationAt</th>
-                <th>Slug</th>
+               
+                <th>Nom</th>
+                <th>Image</th>
+                <th>Modifié le: </th>
+                <th>Crée le:</th>
+               
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for category in categories %}
             <tr>
-                <td>{{ category.id }}</td>
+                
                 <td>{{ category.name }}</td>
                 <td>{{ category.picture }}</td>
-                <td>{{ category.color }}</td>
+                
                 <td>{{ category.updatedAt ? category.updatedAt|date('d-m-Y') : '' }}</td>
                 <td>{{ category.creationAt ? category.creationAt|date('d-m-y ') : '' }}</td>
-                <td>{{ category.slug }}</td>
+                
                 <td class="btn-group" role="group" aria-label="Basic example">
                     <a type="button" class="btn btn-outline-primary" href="{{ path('back_category_show', {'id': category.id}) }}">Afficher</a>
                     <a type="button" class="btn btn-outline-warning" href="{{ path('back_category_edit', {'id': category.id}) }}">Modifier</a>
@@ -41,5 +42,5 @@
         </tbody>
     </table>
 
-    <a type="button" class="btn btn-outline-success href="{{ path('back_category_new') }}">Ajouter une categorie</a>
+    
 {% endblock %}

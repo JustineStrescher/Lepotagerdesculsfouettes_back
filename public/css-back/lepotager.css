@@ -1,0 +1,17 @@
+h1 {
+    font-family: 'Lobster', cursive;
+    margin: 0 0.8em 0 0.3em;
+    padding: 2rem;
+}
+
+.table {
+    margin: 1rem;
+    padding: 2rem; 
+    text-align: center;
+    font-family: 'Chivo', sans-serif;
+    font-size: 1.5rem;
+
+}
+.btn {
+    font-family: 'Chivo', sans-serif;
+}
