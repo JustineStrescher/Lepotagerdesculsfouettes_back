@@ -120,7 +120,9 @@ class Product
         $this->productCommands = new ArrayCollection();
         $this->creationAt = new DateTime();
     }
-
+    public function __toString() {
+        return (!empty($this->name)?$this->name:"");
+    }
     public function getId(): ?int
     {
         return $this->id;
