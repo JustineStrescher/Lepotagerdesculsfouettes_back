@@ -1,45 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category index{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1>Category index</h1>
+    <h1 class="text-center">Index des catégories</h1>
+
+    <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_category_new') }}">Ajouter une categorie</a>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Picture</th>
-                <th>Color</th>
-                <th>UpdatedAt</th>
-                <th>CreationAt</th>
-                <th>Slug</th>
+               
+                <th>Nom</th>
+                <th>Image</th>
+                <th>Modifié le: </th>
+                <th>Crée le:</th>
+               
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for category in categories %}
             <tr>
-                <td>{{ category.id }}</td>
+                
                 <td>{{ category.name }}</td>
                 <td>{{ category.picture }}</td>
-                <td>{{ category.color }}</td>
-                <td>{{ category.updatedAt ? category.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ category.creationAt ? category.creationAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ category.slug }}</td>
-                <td>
-                    <a href="{{ path('back_category_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('back_category_edit', {'id': category.id}) }}">edit</a>
+                
+                <td>{{ category.updatedAt ? category.updatedAt|date('d-m-Y') : '' }}</td>
+                <td>{{ category.creationAt ? category.creationAt|date('d-m-y ') : '' }}</td>
+                
+                <td class="btn-group" role="group" aria-label="Basic example">
+                    <a type="button" class="btn btn-outline-primary" href="{{ path('back_category_show', {'id': category.id}) }}">Afficher</a>
+                    <a type="button" class="btn btn-outline-warning" href="{{ path('back_category_edit', {'id': category.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('back_category_new') }}">Create new</a>
+    
 {% endblock %}
