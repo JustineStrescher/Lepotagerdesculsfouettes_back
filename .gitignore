@@ -22,3 +22,6 @@
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+### les images de produits et de catégories n'ont pas à être sur GIT.
+/public/upload/
