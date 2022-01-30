@@ -4,12 +4,13 @@ namespace App\Controller\Back;
 
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Service\FileUploader;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/back/product")
@@ -29,13 +30,18 @@ class ProductController extends AbstractController
     /**
      * @Route("/new", name="back_product_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                $pictureFileName = $fileUploader->upload($pictureFile);
+                $product->setPicture($pictureFileName);
+            }
             $entityManager->persist($product);
             $entityManager->flush();
 
@@ -61,12 +67,17 @@ class ProductController extends AbstractController
     /**
      * @Route("/{id}/edit", name="back_product_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                $pictureFileName = $fileUploader->upload($pictureFile);
+                $product->setPicture($pictureFileName);
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('back_product_index', [], Response::HTTP_SEE_OTHER);
