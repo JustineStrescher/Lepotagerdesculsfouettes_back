@@ -6,6 +6,7 @@ use App\Entity\Command;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CommandType extends AbstractType
 {
@@ -13,12 +14,18 @@ class CommandType extends AbstractType
     {
         $builder
             ->add('numFact')
-            ->add('status')
-            ->add('updatedAt')
-            ->add('creationAt')
-            ->add('totalTTC')
-            ->add('totalHT')
-            ->add('totalTVA')
+            ->add('status', TextType::class, [
+                'label' => 'Facture n°',
+            ])
+            ->add('totalTTC', TextType::class, [
+                'label' => 'Total TTC',
+            ])
+            ->add('totalHT', TextType::class, [
+                'label' => 'Total HT',
+            ])
+            ->add('totalTVA', TextType::class, [
+                'label' => 'Montant TVA',
+            ])
             ->add('user')
         ;
     }

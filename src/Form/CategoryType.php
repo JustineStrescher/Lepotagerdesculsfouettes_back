@@ -8,13 +8,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CategoryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
+            ->add('name', TextType::class, [
+                'label' => 'Nom',
+            ])
             ->add('picture', FileType::class, [
                 'label' => 'Image',
 
@@ -40,10 +43,7 @@ class CategoryType extends AbstractType
                     ])
                 ],
             ])
-            ->add('color')
-            ->add('updatedAt')
-            ->add('creationAt')
-            ->add('slug')
+            
             ->add('parent')
         ;
     }
