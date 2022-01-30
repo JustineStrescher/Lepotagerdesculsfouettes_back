@@ -23,8 +23,6 @@ class CommandController extends AbstractController
         if ($command === null) {
             return $this->json(['error' => 'Commande non trouvé.'], Response::HTTP_NOT_FOUND);
         }
-
-       
         return $this->json(
             $command,
             Response::HTTP_OK,
@@ -34,5 +32,4 @@ class CommandController extends AbstractController
             ]
         );
     }
-  
 }
