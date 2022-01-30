@@ -33,7 +33,8 @@ class CategoryController extends AbstractController
             ['groups' => 'get_categories']
         );
     }
-      /**
+
+    /**
      * Retourne la liste des categories de produit
      * @Route("/api/subcategory", name="api_subcategories", methods={"GET"})
      */
@@ -61,8 +62,6 @@ class CategoryController extends AbstractController
               $categoriesArrayToJson,
               Response::HTTP_OK
           );
-
-        
     }
 
     /**
@@ -71,9 +70,8 @@ class CategoryController extends AbstractController
     public function getBreadCrumbJson($id, Arborescence $Arborescence): Response
     {
         $categoriesArray = $Arborescence->getArboCat($id);
-        $reversed = array_reverse($categoriesArray);
         $subCategories = '';
-        foreach($reversed as $slug=>$this_category) {
+        foreach($categoriesArray as $slug) {
             $subCategories .= ' > ' . $slug;
         }
         return $this->json(
@@ -86,5 +84,4 @@ class CategoryController extends AbstractController
            
         );
     }
-
 }
