@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Command index{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1>Command index</h1>
+    <h1 class="text-center">Index des commandes</h1>
+    <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_command_new') }}">Ajouter une commande</a>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>NumFact</th>
+                <th>Numeros de facture</th>
                 <th>Status</th>
-                <th>UpdatedAt</th>
-                <th>CreationAt</th>
+                <th>Modifié le :</th>
+                <th>Crée le</th>
                 <th>TotalTTC</th>
                 <th>TotalHT</th>
                 <th>TotalTVA</th>
@@ -22,7 +22,6 @@
         <tbody>
         {% for command in commands %}
             <tr>
-                <td>{{ command.id }}</td>
                 <td>{{ command.numFact }}</td>
                 <td>{{ command.status }}</td>
                 <td>{{ command.updatedAt ? command.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
@@ -30,18 +29,17 @@
                 <td>{{ command.totalTTC }}</td>
                 <td>{{ command.totalHT }}</td>
                 <td>{{ command.totalTVA }}</td>
-                <td>
-                    <a href="{{ path('back_command_show', {'id': command.id}) }}">show</a>
-                    <a href="{{ path('back_command_edit', {'id': command.id}) }}">edit</a>
+                <td class="btn-group" role="group" aria-label="Basic example">
+                    <a type="button" class="btn btn-outline-primary" href="{{ path('back_command_show', {'id': command.id}) }}">Afficher</a>
+                    <a type="button" class="btn btn-outline-warning" href="{{ path('back_command_edit', {'id': command.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">no records found</td>
+                <td colspan="9">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('back_command_new') }}">Create new</a>
-{% endblock %}
+    {% endblock %}

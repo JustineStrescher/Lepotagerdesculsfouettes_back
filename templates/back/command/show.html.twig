@@ -1,16 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Command{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1>Command</h1>
+    <h1 class="text-center">Commande</h1>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ command.id }}</td>
-            </tr>
+           
             <tr>
                 <th>NumFact</th>
                 <td>{{ command.numFact }}</td>
@@ -20,11 +17,11 @@
                 <td>{{ command.status }}</td>
             </tr>
             <tr>
-                <th>UpdatedAt</th>
+                <th>Modifié le :</th>
                 <td>{{ command.updatedAt ? command.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>CreationAt</th>
+                <th>Crée le :</th>
                 <td>{{ command.creationAt ? command.creationAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
@@ -42,9 +39,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('back_command_index') }}">back to list</a>
+    <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_command_index') }}">Revenir à la liste</a></br>
 
-    <a href="{{ path('back_command_edit', {'id': command.id}) }}">edit</a>
+    <a type="button" class="btn btn-outline-primary d-grid gap-2 col-6 mx-auto" href="{{ path('back_command_edit', {'id': command.id}) }}">Modifier</a></br>
 
     {{ include('back/command/_delete_form.html.twig') }}
 {% endblock %}
