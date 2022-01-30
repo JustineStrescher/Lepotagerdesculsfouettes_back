@@ -51,7 +51,7 @@ security:
 
         # Les Acl de notre API
         # Login toujours accessible
-        - { path: ^/back, roles: ROLE_ADMIN }
+        # - { path: ^/back, roles: ROLE_ADMIN }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         # l'API nécessite une authentification sur les User
         - { path: ^/api/client, roles: IS_AUTHENTICATED_FULLY }
