@@ -24,8 +24,17 @@ class ProductType extends AbstractType
             ->add('summary', TextType::class, [
                 'label' => 'Résumé de la déscription',
             ])
-            ->add('available', TextType::class, [
-                'label' => 'Disponibilité (0 non dispo 1 en stock)',
+            ->add('available', ChoiceType::class,[
+                'label' => 'Disponibilité',
+                'choices'  => [
+                    // Libellé => Valeur
+                    'En stock' => 1, 
+                    'Non disponible' => 0
+                ],
+                // Choix multiple => Tableau ;)
+                'multiple' => false,
+                // On veut des boutons radio !
+                'expanded' => true,
             ])
             ->add('stock', TextType::class, [
                 'label' => 'Quantité disponible',
@@ -62,7 +71,7 @@ class ProductType extends AbstractType
                 'label' => 'Poids',
             ])
             ->add('hihlighted', ChoiceType::class,[
-                'label' => 'Afficher sur le caroussel',
+                'label' => 'Mettre le produit en avant',
                 'choices'  => [
                     // Libellé => Valeur
                     'OUI' => 1, 
@@ -88,8 +97,17 @@ class ProductType extends AbstractType
             ->add('price', TextType::class, [
                 'label' => 'Prix',
             ])
-            ->add('unitType', TextType::class, [
-                'label' => 'Pièce ou kg',
+            ->add('unitType', ChoiceType::class,[
+                'label' => 'Vendu à la pièce ou au kg',
+                'choices'  => [
+                    // Libellé => Valeur
+                    'Pièce' => 1, 
+                    'Au kg' => 0
+                ],
+                // Choix multiple => Tableau ;)
+                'multiple' => false,
+                // On veut des boutons radio !
+                'expanded' => true,
             ])
             ->add('category', null,
             ['label' => 'Catégorie'])
