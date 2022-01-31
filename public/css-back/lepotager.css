@@ -8,6 +8,9 @@ h1 {
 h2 {
     text-decoration:underline;
 }
+.navbar{
+    width: 100%;
+}
 .header-logo__title {
     font-family: 'Lobster', cursive;
     color: #90371E;
