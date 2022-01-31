@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{% endblock %}
-
 {% block body %}
+
     <h1 class="text-center">Index des catégories</h1>
 
     <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_category_new') }}">Ajouter une categorie</a>
+    <div class="table-responsive">
 
     <table class="table">
         <thead>
@@ -13,8 +14,7 @@
                
                 <th>Nom</th>
                 <th>Image</th>
-                <th>Modifié le: </th>
-                <th>Crée le:</th>
+                
                 <th>Actions</th>
             </tr>
         </thead>
@@ -25,8 +25,7 @@
                 <td>{{ category.name }}</td>
                 <td>{{ category.picture }}</td>
                 
-                <td>{{ category.updatedAt ? category.updatedAt|date('d-m-Y') : '' }}</td>
-                <td>{{ category.creationAt ? category.creationAt|date('d-m-y ') : '' }}</td>
+            
                 
                 <td class="btn-group" role="group" aria-label="Basic example">
                     <a type="button" class="btn btn-outline-primary" href="{{ path('back_category_show', {'id': category.id}) }}">Afficher</a>
@@ -40,6 +39,7 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
 
     
 {% endblock %}

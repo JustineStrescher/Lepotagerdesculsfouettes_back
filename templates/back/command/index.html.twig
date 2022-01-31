@@ -5,13 +5,13 @@
 {% block body %}
     <h1 class="text-center">Index des commandes</h1>
     <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_command_new') }}">Ajouter une commande</a>
+    <div class="table-responsive">
 
-    <table class="table">
+    <table class="table ">
         <thead>
             <tr>
                 <th>Numéros de facture</th>
                 <th>Status</th>
-                <th>Modifié le :</th>
                 <th>Crée le :</th>
                 <th>TotalTTC</th>
                 <th>TotalHT</th>
@@ -24,7 +24,6 @@
             <tr>
                 <td>{{ command.numFact }}</td>
                 <td>{{ command.status }}</td>
-                <td>{{ command.updatedAt ? command.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ command.creationAt ? command.creationAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ command.totalTTC }}</td>
                 <td>{{ command.totalHT }}</td>
@@ -41,5 +40,6 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
 
     {% endblock %}

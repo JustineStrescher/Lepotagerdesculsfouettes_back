@@ -5,13 +5,14 @@
 {% block body %}
     <h1 class="text-center" >Index des produits</h1>
     <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_product_new') }}">Ajouter un produit</a>
+    <div class="table-responsive">
 
     <table class="table">
         <thead>
             <tr>
                 <th>Nom</th>
-                <th>Disponibilité (0 non dispo 1 en stock)</th>
-                <th>Quantité disponible</th>
+                <th>Disponibilité <br/>(0 non dispo 1 en stock)</th>
+                <th>Quantité <br/> disponible</th>
                 <th>Poids</th>
                 <th>Prix</th>
                 <th>Pièce ou kg</th>
@@ -39,6 +40,7 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
 
     
 {% endblock %}
