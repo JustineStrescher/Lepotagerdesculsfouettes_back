@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Index client{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
     <h1 class="text-center">Index client</h1>
@@ -9,14 +9,11 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Email</th>
-                <th>Roles</th>
+                
                 <th>Prénom</th>
                 <th>Nom</th>
-                <th>Addresse</th>
                 <th>Code postal</th>
-                <th>Ville</th>
-                <th>Pays</th>
+                
                 <th>Téléphone</th>
                 <th>actions</th>
             </tr>
@@ -24,14 +21,11 @@
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+               
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
-                <td>{{ user.address }}</td>
                 <td>{{ user.zip }}</td>
-                <td>{{ user.city }}</td>
-                <td>{{ user.country }}</td>
+               
                 <td>{{ user.phone }}</td>
                 <td class="btn-group" role="group" aria-label="Basic example">
                     <a type="button" class="btn btn-outline-primary" href="{{ path('back_user_show', {'id': user.id}) }}">Afficher</a><br/>
@@ -40,7 +34,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="14">Aucun enregistrement trouvé<</td>
+                <td colspan="14">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>

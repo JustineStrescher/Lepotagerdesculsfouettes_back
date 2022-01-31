@@ -3,14 +3,15 @@
 namespace App\Form;
 
 use App\Entity\Product;
-use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Form\AbstractType;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductType extends AbstractType
 {
@@ -23,8 +24,17 @@ class ProductType extends AbstractType
             ->add('summary', TextType::class, [
                 'label' => 'Résumé de la déscription',
             ])
-            ->add('available', TextType::class, [
-                'label' => 'Disponibilité (0 non dispo 1 en stock)',
+            ->add('available', ChoiceType::class,[
+                'label' => 'Disponibilité',
+                'choices'  => [
+                    // Libellé => Valeur
+                    'En stock' => 1, 
+                    'Non disponible' => 0
+                ],
+                // Choix multiple => Tableau ;)
+                'multiple' => false,
+                // On veut des boutons radio !
+                'expanded' => true,
             ])
             ->add('stock', TextType::class, [
                 'label' => 'Quantité disponible',
@@ -60,15 +70,44 @@ class ProductType extends AbstractType
             ->add('weight', TextType::class, [
                 'label' => 'Poids',
             ])
-            ->add('hihlighted')
-            ->add('online', TextType::class, [
-                'label' => 'Afficher sur le site',
+            ->add('hihlighted', ChoiceType::class,[
+                'label' => 'Mettre le produit en avant',
+                'choices'  => [
+                    // Libellé => Valeur
+                    'OUI' => 1, 
+                    'NON' => 0
+                ],
+                // Choix multiple => Tableau ;)
+                'multiple' => false,
+                // On veut des boutons radio !
+                'expanded' => true,
+            ])
+            ->add('online', ChoiceType::class,[
+                'label' => 'Afficher sur le catalogue en ligne',
+                'choices'  => [
+                    // Libellé => Valeur
+                    'OUI' => 1, 
+                    'NON' => 0
+                ],
+                // Choix multiple => Tableau ;)
+                'multiple' => false,
+                // On veut des boutons radio !
+                'expanded' => true,
             ])
             ->add('price', TextType::class, [
                 'label' => 'Prix',
             ])
-            ->add('unitType', TextType::class, [
-                'label' => 'Pièce ou kg',
+            ->add('unitType', ChoiceType::class,[
+                'label' => 'Vendu à la pièce ou au kg',
+                'choices'  => [
+                    // Libellé => Valeur
+                    'Pièce' => 1, 
+                    'Au kg' => 0
+                ],
+                // Choix multiple => Tableau ;)
+                'multiple' => false,
+                // On veut des boutons radio !
+                'expanded' => true,
             ])
             ->add('category', null,
             ['label' => 'Catégorie'])
