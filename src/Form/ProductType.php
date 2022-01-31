@@ -3,14 +3,15 @@
 namespace App\Form;
 
 use App\Entity\Product;
-use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Form\AbstractType;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductType extends AbstractType
 {
@@ -60,9 +61,29 @@ class ProductType extends AbstractType
             ->add('weight', TextType::class, [
                 'label' => 'Poids',
             ])
-            ->add('hihlighted')
-            ->add('online', TextType::class, [
-                'label' => 'Afficher sur le site',
+            ->add('hihlighted', ChoiceType::class,[
+                'label' => 'Afficher sur le caroussel',
+                'choices'  => [
+                    // Libellé => Valeur
+                    'OUI' => 1, 
+                    'NON' => 0
+                ],
+                // Choix multiple => Tableau ;)
+                'multiple' => false,
+                // On veut des boutons radio !
+                'expanded' => true,
+            ])
+            ->add('online', ChoiceType::class,[
+                'label' => 'Afficher sur le catalogue en ligne',
+                'choices'  => [
+                    // Libellé => Valeur
+                    'OUI' => 1, 
+                    'NON' => 0
+                ],
+                // Choix multiple => Tableau ;)
+                'multiple' => false,
+                // On veut des boutons radio !
+                'expanded' => true,
             ])
             ->add('price', TextType::class, [
                 'label' => 'Prix',
