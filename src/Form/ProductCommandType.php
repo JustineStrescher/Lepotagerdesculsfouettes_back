@@ -28,8 +28,12 @@ class ProductCommandType extends AbstractType
             ->add('totalTVA', TextType::class, [
                 'label' => 'Total TVA',
             ])
-            ->add('command')
-            ->add('product')
+            ->add('command', null, [
+                'label' => 'Commande'
+            ])
+            ->add('product', null, [
+                'label' => 'Produit'
+            ])
         ;
     }
 

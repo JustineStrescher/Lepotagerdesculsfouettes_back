@@ -4,6 +4,7 @@
 
 {% block body %}
     <h1 class="text-center" >Index des produits</h1>
+    <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_product_new') }}">Ajouter un produit</a>
 
     <table class="table">
         <thead>
@@ -11,9 +12,7 @@
                 <th>Nom</th>
                 <th>Disponibilité (0 non dispo 1 en stock)</th>
                 <th>Quantité disponible</th>
-                <th>Image</th>
                 <th>Poids</th>
-                <th>Afficher sur le site</th>
                 <th>Prix</th>
                 <th>Pièce ou kg</th>
                 <th>Actions</th>
@@ -25,14 +24,12 @@
                 <td>{{ product.name }}</td>
                 <td>{{ product.available }}</td>
                 <td>{{ product.stock }}</td>
-                <td>{{ product.picture }}</td>
                 <td>{{ product.weight }}</td>
-                <td>{{ product.online }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.unitType }}</td>
                 <td class="btn-group" role="group" aria-label="Basic example">
-                    <a type="button" class="btn btn-outline-primary" href="{{ path('back_product_show', {'id': product.id}) }}">Afficher</a>
-                    <a type="button" class="btn btn-outline-warning" href="{{ path('back_product_edit', {'id': product.id}) }}">Modifier</a>
+                    <a type="button" class="btn btn-outline-primary" href="{{ path('back_product_show', {'id': product.id}) }}">Afficher</a><br/>
+                    <a type="button" class="btn btn-outline-warning" href="{{ path('back_product_edit', {'id': product.id}) }}">Modifier</a><br/>
                 </td>
             </tr>
         {% else %}
@@ -43,5 +40,5 @@
         </tbody>
     </table>
 
-    <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_product_new') }}">Ajouter une categorie</a>
+    
 {% endblock %}
