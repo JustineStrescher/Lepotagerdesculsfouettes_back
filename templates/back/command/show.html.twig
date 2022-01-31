@@ -7,7 +7,10 @@
 
     <table class="table">
         <tbody>
-           
+            <tr>
+                <th>Client</th>
+                <td><a href="{{ path('back_user_show', {'id': command.user.id}) }}">{{ command.user.firstname }} {{ command.user.lastname }}</a></td>
+            </tr>
             <tr>
                 <th>NumFact</th>
                 <td>{{ command.numFact }}</td>
@@ -36,6 +39,30 @@
                 <th>TotalTVA</th>
                 <td>{{ command.totalTVA }}</td>
             </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                   <h2>Produits commandés</h2>
+                </td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <th>Quantité</th>
+                <th>Prix</th>
+                <th></th>
+            </tr>
+            {% for productsCommand in command.productCommands %}
+            <tr>
+                <td>{{ productsCommand.product.name }}</td>
+                <td>{{ productsCommand.quantity }}</td>
+                <td>{{ productsCommand.unitPrice }} €</td>
+                <td><a href="{{ path('back_product_command_edit', {'id': productsCommand.id}) }}">Modifier</a></td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 
