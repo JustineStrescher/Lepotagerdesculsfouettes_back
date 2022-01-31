@@ -8,7 +8,14 @@ h1 {
 h2 {
     text-decoration:underline;
 }
-
+.header-logo__title {
+    font-family: 'Lobster', cursive;
+    color: #90371E;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0 0.8em 0 0.3em;
+    
+}
 .table {
     margin: 1rem;
     padding: 2rem; 
