@@ -1,61 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Product index{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1>Product index</h1>
+    <h1 class="text-center" >Index des produits</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Summary</th>
-                <th>Available</th>
-                <th>Stock</th>
-                <th>Description</th>
-                <th>Picture</th>
-                <th>Weight</th>
-                <th>UpdatedAt</th>
-                <th>CreationAt</th>
-                <th>Slug</th>
-                <th>Hihlighted</th>
-                <th>Online</th>
-                <th>Price</th>
-                <th>UnitType</th>
-                <th>actions</th>
+                <th>Nom</th>
+                <th>Disponibilité (0 non dispo 1 en stock)</th>
+                <th>Quantité disponible</th>
+                <th>Image</th>
+                <th>Poids</th>
+                <th>Afficher sur le site</th>
+                <th>Prix</th>
+                <th>Pièce ou kg</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for product in products %}
             <tr>
-                <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
-                <td>{{ product.summary }}</td>
                 <td>{{ product.available }}</td>
                 <td>{{ product.stock }}</td>
-                <td>{{ product.description }}</td>
                 <td>{{ product.picture }}</td>
                 <td>{{ product.weight }}</td>
-                <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ product.creationAt ? product.creationAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ product.slug }}</td>
-                <td>{{ product.hihlighted }}</td>
                 <td>{{ product.online }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.unitType }}</td>
-                <td>
-                    <a href="{{ path('back_product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('back_product_edit', {'id': product.id}) }}">edit</a>
+                <td class="btn-group" role="group" aria-label="Basic example">
+                    <a type="button" class="btn btn-outline-primary" href="{{ path('back_product_show', {'id': product.id}) }}">Afficher</a>
+                    <a type="button" class="btn btn-outline-warning" href="{{ path('back_product_edit', {'id': product.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="16">no records found</td>
+                <td colspan="16">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('back_product_new') }}">Create new</a>
+    <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_product_new') }}">Ajouter une categorie</a>
 {% endblock %}

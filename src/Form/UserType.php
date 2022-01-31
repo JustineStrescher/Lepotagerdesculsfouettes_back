@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UserType extends AbstractType
@@ -65,15 +66,27 @@ class UserType extends AbstractType
                     ]);
                 }
             })
-            ->add('firstname')
-            ->add('lastname')
-            ->add('address')
-            ->add('zip')
-            ->add('city')
-            ->add('country')
-            ->add('updatedAt')
-            ->add('creationAt')
-            ->add('phone')
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom',
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom',
+            ])
+            ->add('address', TextType::class, [
+                'label' => 'Adresse',
+            ])
+            ->add('zip', TextType::class, [
+                'label' => 'code postal',
+            ])
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
+            ])
+            ->add('country', TextType::class, [
+                'label' => 'Pays',
+            ])
+            ->add('phone', TextType::class, [
+                'label' => 'Téléphone',
+            ])
         ;
     }
 
