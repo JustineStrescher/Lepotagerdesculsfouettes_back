@@ -1,19 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ProductCommand index{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1>ProductCommand index</h1>
+    <h1 class="text-center">Index  produit commandé</h1>
+     <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto"  href="{{ path('back_product_command_new') }}">Ajouter un nouveau produit</a>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Quantity</th>
-                <th>UnitPrice</th>
-                <th>TotalTTC</th>
-                <th>TotalHT</th>
-                <th>TotalTVA</th>
+                <th>ID</th>
+                <th>Quantité</th>
+                <th>Prix à l'unité où au kg</th>
+                <th>Total TTC</th>
+                <th>Total HT</th>
+                <th>Total TVA</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -26,18 +27,18 @@
                 <td>{{ product_command.totalTTC }}</td>
                 <td>{{ product_command.totalHT }}</td>
                 <td>{{ product_command.totalTVA }}</td>
-                <td>
-                    <a href="{{ path('back_product_command_show', {'id': product_command.id}) }}">show</a>
-                    <a href="{{ path('back_product_command_edit', {'id': product_command.id}) }}">edit</a>
+                <td class="btn-group" role="group" aria-label="Basic example">
+                    <a type="button" class="btn btn-outline-primary" href="{{ path('back_product_command_show', {'id': product_command.id}) }}">Afficher</a><br/>
+                    <a  type="button" class="btn btn-outline-warning" href="{{ path('back_product_command_edit', {'id': product_command.id}) }}">Modifier</a><br/>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">Aucun enregistrement trouvé/td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('back_product_command_new') }}">Create new</a>
+   
 {% endblock %}

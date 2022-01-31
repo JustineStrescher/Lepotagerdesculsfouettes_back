@@ -3,22 +3,35 @@
 namespace App\Form;
 
 use App\Entity\Product;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('summary')
-            ->add('available')
-            ->add('stock')
-            ->add('description')
+        ->add('name', TextType::class, [
+            'label' => 'Nom',
+        ])
+            ->add('summary', TextType::class, [
+                'label' => 'Résumé de la déscription',
+            ])
+            ->add('available', TextType::class, [
+                'label' => 'Disponibilité (0 non dispo 1 en stock)',
+            ])
+            ->add('stock', TextType::class, [
+                'label' => 'Quantité disponible',
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+            ])
             ->add('picture', FileType::class, [
                 'label' => 'Image',
 
@@ -44,15 +57,21 @@ class ProductType extends AbstractType
                     ])
                 ],
             ])
-            ->add('weight')
-            ->add('updatedAt')
-            ->add('creationAt')
-            ->add('slug')
+            ->add('weight', TextType::class, [
+                'label' => 'Poids',
+            ])
             ->add('hihlighted')
-            ->add('online')
-            ->add('price')
-            ->add('unitType')
-            ->add('category')
+            ->add('online', TextType::class, [
+                'label' => 'Afficher sur le site',
+            ])
+            ->add('price', TextType::class, [
+                'label' => 'Prix',
+            ])
+            ->add('unitType', TextType::class, [
+                'label' => 'Pièce ou kg',
+            ])
+            ->add('category', null,
+            ['label' => 'Catégorie'])
         ;
     }
 

@@ -1,57 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Index client{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1 class="text-center">Index client</h1>
+    <a type="button" class="btn btn-outline-success d-grid gap-2 col-6 mx-auto" href="{{ path('back_user_new') }}">Ajouter un client</a>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Password</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Address</th>
-                <th>Zip</th>
-                <th>City</th>
-                <th>Country</th>
-                <th>UpdatedAt</th>
-                <th>CreationAt</th>
-                <th>Phone</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Addresse</th>
+                <th>Code postal</th>
+                <th>Ville</th>
+                <th>Pays</th>
+                <th>Téléphone</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.address }}</td>
                 <td>{{ user.zip }}</td>
                 <td>{{ user.city }}</td>
                 <td>{{ user.country }}</td>
-                <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user.creationAt ? user.creationAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ user.phone }}</td>
-                <td>
-                    <a href="{{ path('back_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('back_user_edit', {'id': user.id}) }}">edit</a>
+                <td class="btn-group" role="group" aria-label="Basic example">
+                    <a type="button" class="btn btn-outline-primary" href="{{ path('back_user_show', {'id': user.id}) }}">Afficher</a><br/>
+                    <a type="button" class="btn btn-outline-warning" href="{{ path('back_user_edit', {'id': user.id}) }}">Modifier</a><br/>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="14">no records found</td>
+                <td colspan="14">Aucun enregistrement trouvé<</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('back_user_new') }}">Create new</a>
+    
 {% endblock %}
