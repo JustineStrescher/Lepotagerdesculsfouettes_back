@@ -18,6 +18,7 @@ class Command
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"command_info"})
      */
     private $id;
 
