@@ -27,7 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"client_id", "user_info"})
-     * @Assert\Email
+     * @Assert\Email(message = "Le champ '{{ label }}' n'est pas valide.")
      * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $email;
