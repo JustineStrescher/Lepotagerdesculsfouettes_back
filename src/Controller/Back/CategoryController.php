@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/back/category")
@@ -30,7 +31,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/new", name="back_category_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, SluggerInterface $slugger): Response
     {
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
@@ -42,6 +43,8 @@ class CategoryController extends AbstractController
                 $pictureFileName = $fileUploader->upload($pictureFile);
                 $category->setPicture($pictureFileName);
             }
+            $slug=$slugger->slug($form->get('name')->getData())->lower();
+            $category->setSlug($slug);
             $entityManager->persist($category);
             $entityManager->flush();
 
@@ -67,7 +70,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/{id}/edit", name="back_category_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Category $category, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function edit(Request $request, Category $category, EntityManagerInterface $entityManager, FileUploader $fileUploader, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
@@ -78,6 +81,8 @@ class CategoryController extends AbstractController
                 $pictureFileName = $fileUploader->upload($pictureFile);
                 $category->setPicture($pictureFileName);
             }
+            $slug=$slugger->slug($form->get('name')->getData())->lower();
+            $category->setSlug($slug);
             $entityManager->flush();
 
             return $this->redirectToRoute('back_category_index', [], Response::HTTP_SEE_OTHER);

@@ -47,6 +47,7 @@ class CommandType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Command::class,
+            'attr' => ['novalidate' => 'novalidate']
         ]);
     }
 }
