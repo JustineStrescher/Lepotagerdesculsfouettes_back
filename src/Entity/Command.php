@@ -106,7 +106,7 @@ class Command
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
 
@@ -142,7 +142,7 @@ class Command
         return $this->totalTTC;
     }
 
-    public function setTotalTTC(float $totalTTC): self
+    public function setTotalTTC(?float $totalTTC): self
     {
         $this->totalTTC = $totalTTC;
 
