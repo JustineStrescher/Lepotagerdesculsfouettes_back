@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -26,12 +27,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"client_id", "user_info"})
+     * @Assert\Email
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
      * @Groups({"client_id", "user_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $roles = [];
 
@@ -44,36 +48,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"client_id", "user_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"client_id", "user_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=1000)
      * @Groups({"client_id", "user_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=30)
      * @Groups({"client_id", "user_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"client_id", "user_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"client_id", "user_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $country;
 
@@ -90,6 +100,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=50)
      * @Groups({"client_id", "user_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $phone;
 
@@ -119,7 +130,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 
@@ -151,7 +162,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -198,12 +209,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+   
     public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstname(?string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -215,7 +227,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): self
+    public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
 
@@ -227,7 +239,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 
@@ -239,7 +251,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->zip;
     }
 
-    public function setZip(string $zip): self
+    public function setZip(?string $zip): self
     {
         $this->zip = $zip;
 
@@ -251,7 +263,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 
@@ -263,7 +275,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->country;
     }
 
-    public function setCountry(string $country): self
+    public function setCountry(?string $country): self
     {
         $this->country = $country;
 
@@ -299,7 +311,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->phone;
     }
 
-    public function setPhone(string $phone): self
+    public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
 

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
@@ -25,6 +26,7 @@ class Category
     /**
      * @ORM\Column(type="string", length=50)
      * @Groups({"get_categories"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $name;
 
@@ -57,6 +59,7 @@ class Category
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="categories")
      * @ORM\JoinColumn(nullable=true,onDelete="SET NULL")
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $parent;
 
@@ -78,6 +81,10 @@ class Category
         $this->creationAt = new DateTime();
     }
     public function __toString() {
+        if($this->name===null) {
+            return "";
+
+        }
         return $this->name;
     }
 
@@ -91,7 +98,7 @@ class Category
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 

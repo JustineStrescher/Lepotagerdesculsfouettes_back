@@ -8,6 +8,7 @@ use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -24,6 +25,7 @@ class Product
     /**
      * @ORM\Column(type="string", length=32)
      * @Groups({"get_product_lite", "product","product_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $name;
 
@@ -36,12 +38,14 @@ class Product
     /**
      * @ORM\Column(type="smallint")
      * @Groups({"get_product_lite", "product", "product_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $available;
 
     /**
      * @ORM\Column(type="float")
      * @Groups({"product", "product_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $stock;
 
@@ -61,6 +65,7 @@ class Product
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $weight;
 
@@ -100,18 +105,21 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
      * @Groups({"get_product_lite", "product", "product_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $category;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      * @Groups({"get_product_lite", "product", "product_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $price;
 
     /**
      * @ORM\Column(type="smallint", options={"default":0})
      * @Groups({"get_product_lite", "product", "product_info"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $unitType;
 
@@ -133,7 +141,7 @@ class Product
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -157,7 +165,7 @@ class Product
         return $this->available;
     }
 
-    public function setAvailable(int $available): self
+    public function setAvailable(?int $available): self
     {
         $this->available = $available;
 
@@ -169,7 +177,7 @@ class Product
         return $this->stock;
     }
 
-    public function setStock(int $stock): self
+    public function setStock(?int $stock): self
     {
         $this->stock = $stock;
 
@@ -207,7 +215,7 @@ class Product
         return $this->weight;
     }
 
-    public function setWeight(float $weight): self
+    public function setWeight(?float $weight): self
     {
         $this->weight = $weight;
 
@@ -333,7 +341,7 @@ class Product
         return $this->unitType;
     }
 
-    public function setUnitType(int $unitType): self
+    public function setUnitType(?int $unitType): self
     {
         $this->unitType = $unitType;
 

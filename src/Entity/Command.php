@@ -8,6 +8,7 @@ use App\Repository\CommandRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CommandRepository::class)
@@ -29,6 +30,7 @@ class Command
     /**
      * @ORM\Column(type="string", length=50)
      * @Groups({"command_info", "client_commands"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $status;
 
@@ -46,6 +48,7 @@ class Command
     /**
      * @ORM\Column(type="float")
      * @Groups({"command_info", "client_commands"})
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $totalTTC;
 
@@ -61,6 +64,7 @@ class Command
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commands")
+     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      * 
      */
     private $user;
