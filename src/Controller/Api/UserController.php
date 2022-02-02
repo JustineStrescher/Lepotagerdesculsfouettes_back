@@ -115,6 +115,9 @@ class UserController extends AbstractController
 
         //Désérialiser (convertir) le JSON en entité Doctrine User
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
+        
+        
+
 
         //Validé l'entité
         $hashedPassword = $userPasswordHasher->hashPassword($user, $user->getPassword());
