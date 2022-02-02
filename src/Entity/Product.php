@@ -64,8 +64,7 @@ class Product
     private $picture;
 
     /**
-     * @ORM\Column(type="float")
-     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
+     * @ORM\Column(type="float", nullable=true  )
      */
     private $weight;
 
