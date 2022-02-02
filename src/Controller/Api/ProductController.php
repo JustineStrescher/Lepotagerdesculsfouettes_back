@@ -35,6 +35,10 @@ class ProductController extends AbstractController
         $productsArrayToJson = array();
         foreach($productsArray as $thisProduct) {
             $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
+            if (strpos($thisProduct->picture, '//') === false) {
+                // il faut retourner un lien complet vers l'image
+                $thisProduct->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisProduct->picture;
+            }
             $productsArrayToJson[] = $thisProduct;
         }
         return $this->json(
@@ -65,6 +69,10 @@ class ProductController extends AbstractController
         $thisProduct = json_decode($json);
         $productsArrayToJson = array();
         $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
+        if (strpos($thisProduct->picture, '//') === false) {
+            // il faut retourner un lien complet vers l'image
+            $thisProduct->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisProduct->picture;
+        }
         $productsArrayToJson[] = $thisProduct;
         return $this->json(
             $productsArrayToJson,
@@ -93,6 +101,10 @@ class ProductController extends AbstractController
         $thisProduct = json_decode($json);
         $productsArrayToJson = array();
         $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
+        if (strpos($thisProduct->picture, '//') === false) {
+            // il faut retourner un lien complet vers l'image
+            $thisProduct->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisProduct->picture;
+        }
         $productsArrayToJson[] = $thisProduct;
         return $this->json(
             $productsArrayToJson,
@@ -119,6 +131,10 @@ class ProductController extends AbstractController
         $productsArrayToJson = array();
         foreach($productsArray as $thisProduct) {
             $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
+            if (strpos($thisProduct->picture, '//') === false) {
+                // il faut retourner un lien complet vers l'image
+                $thisProduct->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisProduct->picture;
+            }
             $productsArrayToJson[] = $thisProduct;
         }
         return $this->json(
@@ -145,6 +161,10 @@ class ProductController extends AbstractController
         $productsArrayToJson = array();
         foreach($productsArray as $thisProduct) {
             $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
+            if (strpos($thisProduct->picture, '//') === false) {
+                // il faut retourner un lien complet vers l'image
+                $thisProduct->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisProduct->picture;
+            }
             $productsArrayToJson[] = $thisProduct;
         }
 
@@ -160,6 +180,10 @@ class ProductController extends AbstractController
         $categoriesArray = json_decode($json);
         $categoriesArrayToJson = array();
         foreach($categoriesArray as $thisCategory) {
+            if (strpos($thisCategory->picture, '//') === false) {
+                // il faut retourner un lien complet vers l'image
+                $thisCategory->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisCategory->picture;
+            }
             $thisCategory->arborescence = $Arborescence->getArboCat($thisCategory->id);
             $categoriesArrayToJson[] = $thisCategory;
         }
