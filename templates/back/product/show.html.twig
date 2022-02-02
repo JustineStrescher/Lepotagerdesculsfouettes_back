@@ -30,7 +30,9 @@
             </tr>
             <tr>
                 <th>Image</th>
-                <td>{{ product.picture }}</td>
+                <td class="text-center"><img src="{{ app.request.getSchemeAndHttpHost() }}/upload/{{ product.picture }}" height="250"/></td>
+                
+
             </tr>
             <tr>
                 <th>Poids</th>

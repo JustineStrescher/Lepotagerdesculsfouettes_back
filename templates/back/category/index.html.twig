@@ -23,7 +23,7 @@
             <tr>
                 
                 <td>{{ category.name }}</td>
-                <td>{{ category.picture }}</td>
+                <td><img src="{{ app.request.getSchemeAndHttpHost() }}/upload/{{ category.picture }}" height="250"/></td>
                 
             
                 

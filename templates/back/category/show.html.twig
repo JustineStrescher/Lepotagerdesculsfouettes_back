@@ -12,7 +12,7 @@
             </tr>
             <tr>
                 <th>Image</th>
-                <td>{{ category.picture }}</td>
+                <td class="text-center"><img src="{{ app.request.getSchemeAndHttpHost() }}/upload/{{ category.picture }}" height="250"/></td>
             </tr>
             <tr>
                 <th>Modifié le:</th>
