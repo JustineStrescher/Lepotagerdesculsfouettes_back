@@ -12,8 +12,15 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ * fields={"email"},
+ * errorPath="email",
+ * message="Cet email existe déja."
+ *)
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -27,8 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"client_id", "user_info"})
-     * @Assert\Email(message = "Le champ '{{ label }}' n'est pas valide.")
-     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
+     * @Assert\Email()
      */
     private $email;
 
@@ -116,8 +122,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->commands = new ArrayCollection();
         $this->creationAt = new DateTime();
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->email;
     }
 
@@ -210,7 +217,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-   
+
     public function getFirstname(): ?string
     {
         return $this->firstname;
