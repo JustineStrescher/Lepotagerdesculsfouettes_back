@@ -59,7 +59,6 @@ class Category
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="categories")
      * @ORM\JoinColumn(nullable=true,onDelete="SET NULL")
-     * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $parent;
 
