@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserController extends AbstractController
 {
@@ -113,7 +114,7 @@ class UserController extends AbstractController
      * 
      * @Route("/api/client/register", name="api_client_register_post", methods={"POST"})
      */
-    public function postClient(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, UserPasswordHasherInterface $userPasswordHasher)
+    public function postClient(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, UserPasswordHasherInterface $userPasswordHasher, ValidatorInterface $validator)
     {
         //Récuperer le contenu JSON
         $jsonContent=$request->getContent();
@@ -124,9 +125,22 @@ class UserController extends AbstractController
         
 
 
-        //Validé l'entité
+        //Validé l'entité User
         $hashedPassword = $userPasswordHasher->hashPassword($user, $user->getPassword());
         $user->setPassword($hashedPassword);
+        $errors = $validator->validate($user);
+         // Y'a-t-il des erreurs ?
+         if (count($errors) > 0) {
+            // tableau de retour
+            $errorsClean = [];
+            // @Retourner des erreurs de validation propres
+            /** @var ConstraintViolation $error */
+            foreach ($errors as $error) {
+                $errorsClean[$error->getPropertyPath()][] = $error->getMessage();
+            };
+
+            return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
         //On sauvegarde l'entité
         $entityManager = $doctrine->getManager();
         $entityManager->persist($user);

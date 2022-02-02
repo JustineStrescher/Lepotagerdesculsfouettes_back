@@ -53,6 +53,7 @@ security:
         # Login toujours accessible
         # - { path: ^/back, roles: ROLE_ADMIN }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/client/register, roles: PUBLIC_ACCESS }
         # l'API nécessite une authentification sur les User
         - { path: ^/api/client, roles: IS_AUTHENTICATED_FULLY }
 
