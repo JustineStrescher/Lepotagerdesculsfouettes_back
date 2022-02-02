@@ -33,7 +33,7 @@ class CategoryController extends AbstractController
         foreach($categoriesArray as $thisCategory) {
             if (strpos($thisCategory->picture, '//') === false) {
                 // il faut retourner un lien complet vers l'image
-                $thisCategory->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisCategory->picture;
+                $thisCategory->picture = $this->getParameter('app.httpDomain') . '/upload/' . $thisCategory->picture;
             }
             $categoriesArrayToJson[] = $thisCategory;
         }
@@ -68,7 +68,7 @@ class CategoryController extends AbstractController
           foreach($categoriesArray as $thisCategory) {
             if (strpos($thisCategory->picture, '//') === false) {
                 // il faut retourner un lien complet vers l'image
-                $thisCategory->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisCategory->picture;
+                $thisCategory->picture = $this->getParameter('app.httpDomain') . '/upload/' . $thisCategory->picture;
             }
               $thisCategory->arborescence = $Arborescence->getArboCat($thisCategory->id);
               $categoriesArrayToJson[] = $thisCategory;
