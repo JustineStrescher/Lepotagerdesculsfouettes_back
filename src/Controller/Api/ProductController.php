@@ -37,7 +37,7 @@ class ProductController extends AbstractController
             $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
             if (strpos($thisProduct->picture, '//') === false) {
                 // il faut retourner un lien complet vers l'image
-                $thisProduct->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisProduct->picture;
+                $thisProduct->picture = $this->getParameter('app.httpDomain') . '/upload/' . $thisProduct->picture;
             }
             $productsArrayToJson[] = $thisProduct;
         }
@@ -71,7 +71,7 @@ class ProductController extends AbstractController
         $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
         if (strpos($thisProduct->picture, '//') === false) {
             // il faut retourner un lien complet vers l'image
-            $thisProduct->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisProduct->picture;
+            $thisProduct->picture = $this->getParameter('app.httpDomain') . '/upload/' . $thisProduct->picture;
         }
         $productsArrayToJson[] = $thisProduct;
         return $this->json(
@@ -103,7 +103,7 @@ class ProductController extends AbstractController
         $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
         if (strpos($thisProduct->picture, '//') === false) {
             // il faut retourner un lien complet vers l'image
-            $thisProduct->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisProduct->picture;
+            $thisProduct->picture = $this->getParameter('app.httpDomain') . '/upload/' . $thisProduct->picture;
         }
         $productsArrayToJson[] = $thisProduct;
         return $this->json(
@@ -133,7 +133,7 @@ class ProductController extends AbstractController
             $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
             if (strpos($thisProduct->picture, '//') === false) {
                 // il faut retourner un lien complet vers l'image
-                $thisProduct->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisProduct->picture;
+                $thisProduct->picture = $this->getParameter('app.httpDomain') . '/upload/' . $thisProduct->picture;
             }
             $productsArrayToJson[] = $thisProduct;
         }
@@ -163,7 +163,7 @@ class ProductController extends AbstractController
             $thisProduct->arborescence = $Arborescence->getArboCat($thisProduct->category->id);
             if (strpos($thisProduct->picture, '//') === false) {
                 // il faut retourner un lien complet vers l'image
-                $thisProduct->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisProduct->picture;
+                $thisProduct->picture = $this->getParameter('app.httpDomain') . '/upload/' . $thisProduct->picture;
             }
             $productsArrayToJson[] = $thisProduct;
         }
@@ -182,7 +182,7 @@ class ProductController extends AbstractController
         foreach($categoriesArray as $thisCategory) {
             if (strpos($thisCategory->picture, '//') === false) {
                 // il faut retourner un lien complet vers l'image
-                $thisCategory->picture = $this->container->get('router')->getContext()->getBaseUrl() . '/upload/' . $thisCategory->picture;
+                $thisCategory->picture = $this->getParameter('app.httpDomain') . '/upload/' . $thisCategory->picture;
             }
             $thisCategory->arborescence = $Arborescence->getArboCat($thisCategory->id);
             $categoriesArrayToJson[] = $thisCategory;
