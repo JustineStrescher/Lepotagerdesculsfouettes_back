@@ -12,8 +12,10 @@ h2 {
     display: flex;
     width: 100%;
     color: #90371E;
-    font-size: 2rem;
+    font-size: 1.2rem;
     justify-content: center;
+    text-align: center;
+    
     
 }
 
@@ -35,7 +37,7 @@ h2 {
     
 }
 .navlogo{
-    font-size: 2rem;
+    font-size: 1.2rem;
     color: #90371E;
     text-align: center;
     font-family: 'Lobster', cursive;
