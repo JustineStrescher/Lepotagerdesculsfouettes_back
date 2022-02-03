@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class CommandController extends AbstractController
 {
@@ -40,7 +42,7 @@ class CommandController extends AbstractController
      * 
      * @Route("/api/client/basket", name="api_client_basket_post", methods={"POST"})
      */
-    public function postBasket(Request $request, ManagerRegistry $doctrine, ValidatorInterface $validator, ProductRepository $productRepository)
+    public function postBasket(Request $request, ManagerRegistry $doctrine, ValidatorInterface $validator, ProductRepository $productRepository, MailerInterface $mailer)
     {
         // 20% de taxe sur les produits
         $taxe_rate = 20;
@@ -74,7 +76,7 @@ class CommandController extends AbstractController
             'total_tva' => 0,
         );
 
-        foreach($productsArrayFromCart as $thisProduct){
+        foreach($productsArrayFromCart as $thisProduct) {
             // récupération des infos du produit
             $product = $productRepository->find($thisProduct->id);
             $productArray = array();
@@ -132,7 +134,8 @@ class CommandController extends AbstractController
             $productCommand->setProduct($thisProductArray['entity']);
             $productCommand->setUnitPrice($thisProductArray['unit_price']);
             $productCommand->setCommand($command);
-
+            // ajout des produits à la commande, ce sera utile pour avoir l'info lors de l'envoi d'email
+            $command->addProductCommand($productCommand);
             // Valider l'entité
             // @link : https://symfony.com/doc/current/validation.html#using-the-validator-service
             $errors = $validator->validate($productCommand);
@@ -154,6 +157,11 @@ class CommandController extends AbstractController
         }
         $entityManager->flush();
         
+        // envoi d'un email pour l'administrateur
+        $this->sendEmail($command, 'admin', $mailer);
+        // envoi d'un email pour le client
+        $this->sendEmail($command, 'customer', $mailer);
+
         // jusqu'ici tout va bien, on retourne un message de validation
         $output = ['message'=>'OK'];
 
@@ -168,4 +176,32 @@ class CommandController extends AbstractController
         );
     }
 
+    /**
+     * 
+     * 
+     * 
+    */
+    public function sendEmail($command, $recipient, $mailer): void
+    {
+        $admin_email = 'contact@lepotagerdesculsfouettes.fr';
+        if ($recipient == 'customer') {
+            $recipient_email = $command->getUser()->GetEmail();
+            $subject = "Votre commande sur le site lepotagerdesculsfouettes.fr";
+            $textHtml = "Bonjour, <br /> nous confirmons votre commande N° " . $command->getNumFact() . " sur notre site lepotagerdesculsfouettes.fr <br /> Cette commande sera à retirer à l'exploitation le jour habituel. <br /> Pour plus d'informations vous pouvez nous contacter par email : contact@lepotagerdesculsfouettes.fr <br /> Merci et à bientôt ;-)";
+        } else {
+            $recipient_email = $admin_email;
+            $subject = "Une commande à été créée sur le site lepotagerdesculsfouettes.fr";
+            $textHtml = "Bonjour administrateur, <br /> une commande a été enregistrée sur le site, pour un montant approximatif de " . $command->getTotalTTC() . " € et comportant " . count($command->getProductCommands()) ." références. Vous pouvez consulter le détail de cette commande depuis le back office du site";
+        }
+        
+
+        $email = (new Email())
+            ->from($admin_email)
+            ->to($recipient_email)
+            ->subject($subject)
+            //->text('Sending emails is fun again!')
+            ->html($textHtml);
+
+        $mailer->send($email);
+    }
 }
