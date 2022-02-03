@@ -3,9 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Product;
+use App\Entity\Category;
+use Symfony\Component\Form\FormEvent;
+use App\Repository\CategoryRepository;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -108,9 +113,22 @@ class ProductType extends AbstractType
                 'multiple' => false,
                 // On veut des boutons radio !
                 'expanded' => true,
-            ])
-            ->add('category', null,
-            ['label' => 'Catégorie'])
+            ])->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+                $form = $event->getForm();
+                $formOptions = [
+                    'class' => Category::class,
+                    'choice_label' => 'name',
+                    'multiple' => false,
+                    'expanded' => false,
+                    'query_builder' => function (CategoryRepository $CategoryRepository) {
+                        // call a method on your repository that returns the query builder
+                        return $CategoryRepository->findAllSubCategoriesQb();
+                    },
+                ];
+                // create the field, this is similar the $builder->add()
+                // field name, field type, field options
+                $form->add('category', EntityType::class, $formOptions);
+            })
         ;
     }
 
