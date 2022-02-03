@@ -31,36 +31,48 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <header>
-<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+
+
+<nav class="navbar navbar-light" style="background-color: #d0efe8;">
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+<nav class="navbar " style="background-color: #d0efe8;">
   <!-- Navbar content -->
-  <div class="container-fluid">
-            <a  class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo" href="/">
+ <ul class="nav"  >
+    <li class="nav-item btn">
+        <a class="navlogo btn" href="{{ path('back_category_index') }}">Catégories</a>
+    </li>
+    <li class="nav-item btn">
+        <a class="navlogo btn"  href="{{ path('back_command_index') }}">Commandes</a>
+    </li>
+     <a  class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo" href="/">
                 <img src="{{ asset('logo.jpg') }}" height="70" alt="Logo Potager">
-                <span class="header-logo__title">Le potager des culs fouettés</span>
             </a>
-            <ul class="nav  mb-3" role="group" aria-label="Basic example">
-    <li class="nav-item">
-        <a type="button" class="nav-link btn-outline-warning" href="{{ path('back_category_index') }}">Catégories</a>
+     <li class="nav-item btn">
+        <a  class="navlogo btn" href="{{ path('back_product_index') }}">Produits</a>
     </li>
-    <li class="nav-item">
-        <a type="button" class="nav-link btn-outline-warning"href="{{ path('back_command_index') }}">Commandes</a>
-    </li>
-     <li class="nav-item">
-        <a type="button" class="nav-link btn-outline-warning"href="{{ path('back_product_index') }}">Produits</a>
-    </li>
-     <li class="nav-item">
-        <a type="button" class="nav-link btn-outline-warning" href="{{ path('back_user_index') }}">Clients</a>
+     <li class="nav-item btn">
+        <a class="navlogo btn" href="{{ path('back_user_index') }}">Clients</a>
     </li>
 </ul>
-</nav>
-</header>
-    <body>
 
+</nav>
+
+        <div class="nav-back" >Bienvenue {{ app.user.firstname }}</div>
+
+        <a type="button" class="btn btn-danger ms-auto mb-2 mb-lg-0"href="{{ path('login_logout') }}">Déconnexion</a>
         
+                           
+    {% endif %}
+    
+
+</nav>
+
+</header>
+    
+    <body>
         <div class="container potager_back">
-        {% block body %}{% endblock %}
+            {% block body %}{% endblock %}
         </div>
     </body>
 </html>
-
 
