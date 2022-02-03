@@ -9,16 +9,14 @@ h2 {
     text-decoration:underline;
 }
 .navbar{
+    display: flex;
     width: 100%;
-}
-.header-logo__title {
-    font-family: 'Lobster', cursive;
     color: #90371E;
-    font-size: 1.5em;
-    font-weight: bold;
-    margin: 0 0.8em 0 0.3em;
+    font-size: 2rem;
+    justify-content: center;
     
 }
+
 .table {
     margin: 1rem;
     padding: 2rem; 
@@ -29,9 +27,17 @@ h2 {
 }
 .btn {
     font-family: 'Chivo', sans-serif;
+    
 }
 
 .potager_back{
     font-family: 'Chivo', sans-serif;
     
 }
+.navlogo{
+    font-size: 2rem;
+    color: #90371E;
+    text-align: center;
+    font-family: 'Lobster', cursive;
+}
+

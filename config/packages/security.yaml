@@ -34,6 +34,15 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+
+            form_login:
+                # name of the route created previously
+                login_path: login_index # GET => affiche le form
+                check_path: login_index # POST => traite le form
+            
+            logout:
+                path: login_logout
+
             
             
 
@@ -51,7 +60,7 @@ security:
 
         # Les Acl de notre API
         # Login toujours accessible
-        # - { path: ^/back, roles: ROLE_ADMIN }
+        - { path: ^/back, roles: ROLE_ADMIN }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/client/register, roles: PUBLIC_ACCESS }
         # l'API nécessite une authentification sur les User

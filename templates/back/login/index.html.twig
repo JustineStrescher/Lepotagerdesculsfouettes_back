@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+<div class="container pt-5">
+    <div class="row mb-2">
+        <div class="col">
+
+            <h1>Connexion</h1>
+
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+            {% endif %}
+
+            <form action="{{ path('login_index') }}" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="username" name="_username" value="{{ last_username }}">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" name="_password">
+                </div>
+                <button type="submit" class="btn btn-primary">Connexion</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
