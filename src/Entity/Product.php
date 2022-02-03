@@ -19,6 +19,7 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"get_product_lite","product","product_info"})
      */
     private $id;
 
