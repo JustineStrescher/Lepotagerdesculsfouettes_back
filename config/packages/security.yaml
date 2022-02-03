@@ -39,6 +39,8 @@ security:
                 # name of the route created previously
                 login_path: login_index # GET => affiche le form
                 check_path: login_index # POST => traite le form
+                default_target_path: /back/command
+
             
             logout:
                 path: login_logout
