@@ -49,7 +49,7 @@ class CommandController extends AbstractController
 
         //Récuperer le contenu JSON.
         /*
-        "products": [
+        [
             {
               "id": 2,
               "quantity": "2"
@@ -191,7 +191,7 @@ class CommandController extends AbstractController
         } else {
             $recipient_email = $admin_email;
             $subject = "Une commande à été créée sur le site lepotagerdesculsfouettes.fr";
-            $textHtml = "Bonjour administrateur, <br /> une commande a été enregistrée sur le site, pour un montant approximatif de " . $command->getTotalTTC() . " € et comportant " . count($command->getProductCommands()) ." références. Vous pouvez consulter le détail de cette commande depuis le back office du site";
+            $textHtml = "Bonjour administrateur, <br /> une commande a été enregistrée sur le site, pour un montant approximatif de " . $command->getTotalTTC() . " € et comportant " . count($command->getProductCommands()) . " références. Vous pouvez consulter le détail de cette commande depuis le back office du site";
         }
         
 
