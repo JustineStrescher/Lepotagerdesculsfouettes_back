@@ -64,6 +64,14 @@ class CommandController extends AbstractController
         $jsonContent=$request->getContent();
 
         $productsArrayFromCart = json_decode($jsonContent);
+
+        foreach ($productsArrayFromCart as $thisProduct) {
+            // on va vérifier le format de données
+            if (empty($thisProduct->id)){
+                // si il manque un id de produit, on veut pas aller plus loin
+                return $this->json(array("message"=>"Json invalide"), Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
         // on va d'abord créer la commande dans la table command, pour cela il nous faut l'utilisateur connecté.
         $user = $this->getUser();
 
@@ -94,7 +102,7 @@ class CommandController extends AbstractController
             $commandArray['total_tva'] += $productArray['tva'];
         }
 
-        // Création de l'entité que l'on complète avec les données calculées au dessus
+        // Création de l'entité commande que l'on complète avec les données calculées au dessus
         $command = new Command();
         $command->setUser($user);
         $command->setStatus($commandArray['status']);
