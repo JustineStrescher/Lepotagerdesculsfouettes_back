@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class CommandController extends AbstractController
 {
@@ -165,9 +167,9 @@ class CommandController extends AbstractController
         $entityManager->flush();
         
         // envoi d'un email pour l'administrateur
-        $this->sendEmail($command, 'admin', $mailer);
+        $this->sendEmailCommand($command, 'admin', $mailer);
         // envoi d'un email pour le client
-        $this->sendEmail($command, 'customer', $mailer);
+        $this->sendEmailCommand($command, 'customer', $mailer);
 
         // jusqu'ici tout va bien, on retourne un message de validation
         $output = ['message'=>'OK'];
@@ -188,26 +190,51 @@ class CommandController extends AbstractController
      * 
      * 
     */
-    public function sendEmail($command, $recipient, $mailer): void
+    public function sendEmailCommand($command, $recipient, $mailer): void
     {
         $admin_email = 'contact@lepotagerdesculsfouettes.fr';
         if ($recipient == 'customer') {
             $recipient_email = $command->getUser()->GetEmail();
             $subject = "Votre commande sur le site lepotagerdesculsfouettes.fr";
-            $textHtml = "Bonjour, <br /> nous confirmons votre commande N° " . $command->getNumFact() . " sur notre site lepotagerdesculsfouettes.fr <br /> Cette commande sera à retirer à l'exploitation le jour habituel. <br /> Pour plus d'informations vous pouvez nous contacter par email : contact@lepotagerdesculsfouettes.fr <br /> Merci et à bientôt ;-)";
+            $htmlTemplate = 'emails/customerCommand.html.twig';
+            $monthArray = [
+                1=>'janvier',
+                2=>'fevrier',
+                3=>'mars',
+                4=>'avril',
+                5=>'mai',
+                6=>'juin',
+                7=>'juillet',
+                8=>'aout',
+                9=>'septembre',
+                10=>'octobre',
+                11=>'novembre',
+                12=>'décembre'
+            ];
+            $context = array(
+                'NumFact' => $command->getNumFact(),
+                'nextWednesday' => date('d', strtotime('next Wednesday')) . ' ' . $monthArray[date('n', strtotime('next Wednesday'))] . ' ' . date('Y', strtotime('next Wednesday'))
+            );
         } else {
-            $recipient_email = $admin_email;
-            $subject = "Une commande à été créée sur le site lepotagerdesculsfouettes.fr";
-            $textHtml = "Bonjour administrateur, <br /> une commande a été enregistrée sur le site, pour un montant approximatif de " . $command->getTotalTTC() . " € et comportant " . count($command->getProductCommands()) . " références. Vous pouvez consulter le détail de cette commande depuis le back office du site";
+            // $recipient_email = $admin_email;
+            $recipient_email = $command->getUser()->GetEmail();
+            $subject = "Nouvelle commande sur lepotagerdesculsfouettes.fr";
+            $htmlTemplate = 'emails/adminCommand.html.twig';
+            $context = array(
+                'totalTTC' => $command->getTotalTTC(),
+                'countProductCommands' => count($command->getProductCommands()),
+                'productsCommand' => $command->getProductCommands(),
+                'command' => $command,
+                'domainAndProtocol' => $_ENV["HTTP_DOMAIN"],
+            );
         }
-        
 
-        $email = (new Email())
-            ->from($admin_email)
+        $email = (new TemplatedEmail())
+            ->from(new Address($admin_email, "Le potager des culs fouettés"))
             ->to($recipient_email)
             ->subject($subject)
-            //->text('Sending emails is fun again!')
-            ->html($textHtml);
+            ->htmlTemplate($htmlTemplate)
+            ->context($context);
 
         $mailer->send($email);
     }

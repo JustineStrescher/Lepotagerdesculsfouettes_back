@@ -1,0 +1,21 @@
+<h1>Bonjour administrateur</h1>
+Une commande a été enregistrée sur le site, pour un montant approximatif de {{ totalTTC }} € et comportant {{ countProductCommands }} références :
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Nom</th>
+            <th>Quantité</th>
+            <th>Prix</th>
+        </tr>
+        {% for productsCommand in command.productCommands %}
+        <tr>
+            <td>{{ productsCommand.product.name }}</td>
+            <td>{{ productsCommand.quantity }}</td>
+            <td>{{ productsCommand.unitPrice }} €</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br />
+Vous pouvez consulter le détail de cette commande depuis le back office du site : 
+<a href="{{ domainAndProtocol }}{{ path('back_command_edit', {'id': command.id}) }}">en cliquant ici</a>
