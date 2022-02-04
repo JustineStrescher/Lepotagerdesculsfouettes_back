@@ -114,12 +114,13 @@ class UserController extends AbstractController
         //Récuperer le contenu JSON
         $jsonContent=$request->getContent();
 
+
         //Désérialiser (convertir) le JSON en entité Doctrine User
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
-        
-        
 
-
+        // on défini en dur le role de l'utilisateur qui s'inscrit, pour éviter qu'il puisse envoyer un 'ROLE_ADMIN' en POST et créer un compte admin
+        $user->setRoles(["ROLE_USER"]);
+        
         //Validé l'entité User
         $hashedPassword = $userPasswordHasher->hashPassword($user, $user->getPassword());
         $user->setPassword($hashedPassword);
