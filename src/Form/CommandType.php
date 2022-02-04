@@ -33,12 +33,7 @@ class CommandType extends AbstractType
             ->add('totalTTC', TextType::class, [
                 'label' => 'Total TTC',
             ])
-            ->add('totalHT', TextType::class, [
-                'label' => 'Total HT',
-            ])
-            ->add('totalTVA', TextType::class, [
-                'label' => 'Montant TVA',
-            ])
+           
             ->add('user')
         ;
     }
