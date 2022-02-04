@@ -69,7 +69,7 @@ class CommandController extends AbstractController
             // on va vérifier le format de données
             if (empty($thisProduct->id)){
                 // si il manque un id de produit, on veut pas aller plus loin
-                return $this->json(array("message"=>"Json invalide"), Response::HTTP_UNPROCESSABLE_ENTITY);
+                return $this->json(dump($productsArrayFromCart), Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         }
         // on va d'abord créer la commande dans la table command, pour cela il nous faut l'utilisateur connecté.
