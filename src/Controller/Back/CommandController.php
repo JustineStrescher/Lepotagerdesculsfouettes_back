@@ -4,12 +4,13 @@ namespace App\Controller\Back;
 
 use App\Entity\Command;
 use App\Form\CommandType;
+use App\Entity\ProductCommand;
 use App\Repository\CommandRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/back/command")
@@ -76,6 +77,7 @@ class CommandController extends AbstractController
             'command' => $command,
             'form' => $form,
         ]);
+        
     }
 
     /**
