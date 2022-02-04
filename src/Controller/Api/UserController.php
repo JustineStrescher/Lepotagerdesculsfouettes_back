@@ -51,25 +51,20 @@ class UserController extends AbstractController
     }
      /**
      * Retourne les info du compte utilisateur
-     * @Route("/api/client/{id<\d+>}/info", name="api_client_info", methods={"GET"})
+     * @Route("/api/client/info", name="api_client_info", methods={"GET"})
      */
-    public function getItemClient(User $user = null): Response
+    public function getItemClient( SerializerInterface $serializer, ManagerRegistry $doctrine): Response
     {
-        // 404 ?
-        if ($user === null) {
-            return $this->json(['error' => 'Client non trouvé.'], Response::HTTP_NOT_FOUND);
-        }
+        $user = $this->getUser();
 
-       
         return $this->json(
             $user,
             Response::HTTP_OK,
             [],
-            [
-                'groups' => [ 'client_id']
-            ]
+            ['groups' => ['user_info', 'command_info']]
         );
     }
+
      /**
      * 
      * @Route("/api/login_check", name="api_login_check", methods={"GET"})

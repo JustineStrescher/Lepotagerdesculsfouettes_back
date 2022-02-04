@@ -17,20 +17,32 @@ class CategoryController extends AbstractController
      * Retourne la liste des categories de produit
      * @Route("/api/category", name="api_categories", methods={"GET"})
      */
-    public function getMainCategories(CategoryRepository $categoryRepository): Response
+    public function getMainCategories(SerializerInterface $serializer, CategoryRepository $categoryRepository): Response
     {
         // On va chercher les données
         $categoriesList = $categoryRepository->findMainCategories();
+        $json = $serializer->serialize(
+            $categoriesList,
+            'json',
+            ['groups' => 'get_categories']
+        );
+
+        // code pour enrichir le json avec l'arborescence de catégorie
+        $categoriesArray = json_decode($json);
+        $categoriesArrayToJson = array();
+        foreach($categoriesArray as $thisCategory) {
+            if (strpos($thisCategory->picture, '//') === false) {
+                // il faut retourner un lien complet vers l'image
+                $thisCategory->picture = $this->getParameter('app.httpDomain') . '/upload/' . $thisCategory->picture;
+            }
+            $categoriesArrayToJson[] = $thisCategory;
+        }
 
         return $this->json(
             // Les données à sérialiser (à convertir en JSON)
-            $categoriesList,
+            $categoriesArrayToJson,
             // Le status code
-            200,
-            // Les en-têtes de réponse à ajouter (aucune)
-            [],
-            // Les groupes à utiliser par le Serializer
-            ['groups' => 'get_categories']
+            Response::HTTP_OK
         );
     }
 
@@ -43,17 +55,21 @@ class CategoryController extends AbstractController
         // On va chercher les données
         $categoriesList = $categoryRepository-> findAllSubCategories();
 
-          // Récupération des catégories à envoyer dans le JSON également
-          $json = $serializer->serialize(
-              $categoriesList,
-              'json',
-              ['groups' => 'get_categories']
-          );
+        // Récupération des catégories à envoyer dans le JSON également
+        $json = $serializer->serialize(
+            $categoriesList,
+            'json',
+            ['groups' => 'get_categories']
+        );
   
           // code pour enrichir le json avec l'arborescence de catégorie
           $categoriesArray = json_decode($json);
           $categoriesArrayToJson = array();
           foreach($categoriesArray as $thisCategory) {
+            if (strpos($thisCategory->picture, '//') === false) {
+                // il faut retourner un lien complet vers l'image
+                $thisCategory->picture = $this->getParameter('app.httpDomain') . '/upload/' . $thisCategory->picture;
+            }
               $thisCategory->arborescence = $Arborescence->getArboCat($thisCategory->id);
               $categoriesArrayToJson[] = $thisCategory;
           }
@@ -78,10 +94,7 @@ class CategoryController extends AbstractController
             // Les données à sérialiser (à convertir en JSON)
             $subCategories,
             // Le status code
-            200,
-            // Les en-têtes de réponse à ajouter (aucune)
-            [],
-           
+            Response::HTTP_OK
         );
     }
 }

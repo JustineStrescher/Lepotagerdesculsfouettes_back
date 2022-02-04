@@ -44,6 +44,16 @@ class CategoryRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findAllSubCategoriesQb()
+    {
+        // returns an array of Movie objects
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.parent IS NOT NULL')
+            ->orderBy('c.id', 'ASC')
+        ;
+    }
+
     public function findAllSubCategories()
     {
         // returns an array of Movie objects

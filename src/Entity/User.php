@@ -112,6 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Command::class, mappedBy="user")
+     * @Groups({"user_info"})
      * 
      */
     private $commands;
