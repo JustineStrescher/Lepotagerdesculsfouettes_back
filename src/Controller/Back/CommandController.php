@@ -4,12 +4,13 @@ namespace App\Controller\Back;
 
 use App\Entity\Command;
 use App\Form\CommandType;
+use App\Entity\ProductCommand;
 use App\Repository\CommandRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/back/command")
@@ -61,7 +62,7 @@ class CommandController extends AbstractController
     /**
      * @Route("/{id}/edit", name="back_command_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Command $command, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Command $command, EntityManagerInterface $entityManager, ProductCommand $productCommand): Response
     {
         $form = $this->createForm(CommandType::class, $command);
         $form->handleRequest($request);
@@ -74,6 +75,10 @@ class CommandController extends AbstractController
 
         return $this->renderForm('back/command/edit.html.twig', [
             'command' => $command,
+            'form' => $form,
+        ]);
+        return $this->renderForm('back/product_command/edit.html.twig', [
+            'product_command' => $productCommand,
             'form' => $form,
         ]);
     }
