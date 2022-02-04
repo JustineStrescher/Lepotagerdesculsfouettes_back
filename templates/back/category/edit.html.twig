@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Modifier {{category.name}}{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Modifier une categorie</h1>
+    <h1 class="text-center">Modifier la categorie <br/> {{category.name}}</h1>
 
     {{ include('back/category/_form.html.twig', {'button_label': 'Modifier'}) }}
 
