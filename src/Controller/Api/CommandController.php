@@ -49,27 +49,24 @@ class CommandController extends AbstractController
 
         //Récuperer le contenu JSON.
         /*
-        [
-            {
-              "id": 2,
-              "quantity": "2"
-            },
-            {
-              "id": 3,
-              "quantity": "1"
-            }
-          ]
+{"data":[
+		{"id":19,"quantity":"1"},
+		{"id":17,"quantity":"1"},
+		{"id":148,"quantity":"2"}
+	]
+}
         */
 
         $jsonContent=$request->getContent();
 
         $productsArrayFromCart = json_decode($jsonContent);
-
-        foreach ($productsArrayFromCart as $thisProduct) {
-            // on va vérifier le format de données
-            if (empty($thisProduct->id)){
-                // si il manque un id de produit, on veut pas aller plus loin
-                return $this->json(dump($productsArrayFromCart), Response::HTTP_UNPROCESSABLE_ENTITY);
+        foreach ($productsArrayFromCart as $thisProductArray) {
+            foreach ($thisProductArray as $thisProduct) {
+                // on va vérifier le format de données
+                if (empty($thisProduct->id)) {
+                    // si il manque un id de produit, on veut pas aller plus loin
+                    return $this->json(dump($productsArrayFromCart), Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
             }
         }
         // on va d'abord créer la commande dans la table command, pour cela il nous faut l'utilisateur connecté.
@@ -84,22 +81,24 @@ class CommandController extends AbstractController
             'total_tva' => 0,
         );
 
-        foreach($productsArrayFromCart as $thisProduct) {
-            // récupération des infos du produit
-            $product = $productRepository->find($thisProduct->id);
-            $productArray = array();
-            $productArray['unit_price'] = $product->getPrice();
-            $productArray['ttc'] = $product->getPrice() * $thisProduct->quantity;
-            $productArray['ht'] = $productArray['ttc'] * (1 - ($taxe_rate/100)); 
-            $productArray['tva'] = $productArray['ttc'] - $productArray['ht'];
-            $productArray['quantity'] = $thisProduct->quantity;
-            $productArray['entity'] = $product;
-            $productsArray[] = $productArray;
+        foreach($productsArrayFromCart as $thisProductArray) {
+            foreach ($thisProductArray as $thisProduct) {
+                // récupération des infos du produit
+                $product = $productRepository->find($thisProduct->id);
+                $productArray = array();
+                $productArray['unit_price'] = $product->getPrice();
+                $productArray['ttc'] = $product->getPrice() * $thisProduct->quantity;
+                $productArray['ht'] = $productArray['ttc'] * (1 - ($taxe_rate/100));
+                $productArray['tva'] = $productArray['ttc'] - $productArray['ht'];
+                $productArray['quantity'] = $thisProduct->quantity;
+                $productArray['entity'] = $product;
+                $productsArray[] = $productArray;
 
-            // MAJ du tableau général de commande
-            $commandArray['total_ttc'] += $productArray['ttc'];
-            $commandArray['total_ht'] += $productArray['ht'];
-            $commandArray['total_tva'] += $productArray['tva'];
+                // MAJ du tableau général de commande
+                $commandArray['total_ttc'] += $productArray['ttc'];
+                $commandArray['total_ht'] += $productArray['ht'];
+                $commandArray['total_tva'] += $productArray['tva'];
+            }
         }
 
         // Création de l'entité commande que l'on complète avec les données calculées au dessus
