@@ -62,7 +62,7 @@ class CommandController extends AbstractController
     /**
      * @Route("/{id}/edit", name="back_command_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Command $command, EntityManagerInterface $entityManager, ProductCommand $productCommand): Response
+    public function edit(Request $request, Command $command, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CommandType::class, $command);
         $form->handleRequest($request);
@@ -77,10 +77,7 @@ class CommandController extends AbstractController
             'command' => $command,
             'form' => $form,
         ]);
-        return $this->renderForm('back/product_command/edit.html.twig', [
-            'product_command' => $productCommand,
-            'form' => $form,
-        ]);
+        
     }
 
     /**

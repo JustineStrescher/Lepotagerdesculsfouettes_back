@@ -22,12 +22,6 @@ class ProductCommandType extends AbstractType
             ->add('totalTTC', TextType::class, [
                 'label' => 'Total TTC',
             ])
-            ->add('totalHT', TextType::class, [
-                'label' => 'Total HT',
-            ])
-            ->add('totalTVA', TextType::class, [
-                'label' => 'Total TVA',
-            ])
             ->add('command', null, [
                 'label' => 'Commande'
             ])
@@ -41,6 +35,7 @@ class ProductCommandType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ProductCommand::class,
+            'attr' => ['novalidate' => 'novalidate']
         ]);
     }
 }
