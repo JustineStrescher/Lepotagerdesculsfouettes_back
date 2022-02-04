@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Modifier {{product.name}}{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Modifier un produit</h1>
+    <h1 class="text-center">Modifier <br/>{{product.name}}</h1>
 
     {{ include('back/product/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
