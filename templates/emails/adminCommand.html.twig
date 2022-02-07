@@ -1,21 +1,32 @@
-<h1>Bonjour administrateur</h1>
-Une commande a été enregistrée sur le site, pour un montant approximatif de {{ totalTTC }} € et comportant {{ countProductCommands }} références :
+<table>
+    <tr>
+        <td>
+
+            <img src="{{ email.image('@public/logo.png') }}" alt="Logo" style="height:50px;">
+        </td>
+        <td>
+            <h1>Bonjour administrateur</h1>
+        </td>
+    </tr>
+</table>
+Une commande a été enregistrée sur le site par {{ customerName }} le {{ command.creationAt|date("d/m/Y H\\hi") }}, pour un montant approximatif de {{ totalTTC }} € et comportant {{ countProductCommands }} références :
 <table class="table">
     <tbody>
         <tr>
             <th>Nom</th>
             <th>Quantité</th>
-            <th>Prix</th>
+            <th>Prix unitaire</th>
+            <th>Prix total</th>
         </tr>
         {% for productsCommand in command.productCommands %}
         <tr>
             <td>{{ productsCommand.product.name }}</td>
-            <td>{{ productsCommand.quantity }}</td>
-            <td>{{ productsCommand.unitPrice }} €</td>
+            <td style="text-align: center;">{{ productsCommand.quantity }}</td>
+            <td style="text-align: center;">{{ productsCommand.UnitPrice }} €</td>
+            <td style="text-align: center;">{{ productsCommand.totalTTC }} €</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 <br />
-Vous pouvez consulter le détail de cette commande depuis le back office du site : 
-<a href="{{ domainAndProtocol }}{{ path('back_command_edit', {'id': command.id}) }}">en cliquant ici</a>
+Vous pouvez consulter le détail de cette commande depuis le <a href="{{ domain_and_protocol }}{{ path('back_command_edit', {'id': command.id}) }}">back office du site</a>

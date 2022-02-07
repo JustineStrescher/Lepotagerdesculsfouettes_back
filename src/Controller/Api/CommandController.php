@@ -103,6 +103,10 @@ class CommandController extends AbstractController
             }
         }
 
+        if (empty($productsArray)) {
+            return $this->json(['message'=>'Aucun produit'], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         // Création de l'entité commande que l'on complète avec les données calculées au dessus
         $command = new Command();
         $command->setUser($user);
@@ -132,6 +136,7 @@ class CommandController extends AbstractController
         $entityManager = $doctrine->getManager();
         $entityManager->persist($command);
         $entityManager->flush();
+
 
         // on a la commande en base de données, on va lui associer les produits du panier dont toutes les informations sont dans le tableau $productsArray
         foreach($productsArray as $thisProductArray) {
@@ -192,46 +197,47 @@ class CommandController extends AbstractController
     */
     public function sendEmailCommand($command, $recipient, $mailer): void
     {
-        $admin_email = 'contact@lepotagerdesculsfouettes.fr';
+        $adminEmail = 'contact@lepotagerdesculsfouettes.fr';
         if ($recipient == 'customer') {
-            $recipient_email = $command->getUser()->GetEmail();
-            $subject = "Votre commande sur le site lepotagerdesculsfouettes.fr";
+            $recipientEmail = $command->getUser()->GetEmail();
+            $subject = "Votre commande " . $command->getNumFact() . " sur lepotagerdesculsfouettes.fr";
             $htmlTemplate = 'emails/customerCommand.html.twig';
             $monthArray = [
                 1=>'janvier',
-                2=>'fevrier',
+                2=>'février',
                 3=>'mars',
                 4=>'avril',
                 5=>'mai',
                 6=>'juin',
                 7=>'juillet',
-                8=>'aout',
+                8=>'août',
                 9=>'septembre',
                 10=>'octobre',
                 11=>'novembre',
                 12=>'décembre'
             ];
             $context = array(
+                'customerName'=> $command->getUser()->getFirstname() . " " . $command->getUser()->getLastname(),
                 'NumFact' => $command->getNumFact(),
                 'nextWednesday' => date('d', strtotime('next Wednesday')) . ' ' . $monthArray[date('n', strtotime('next Wednesday'))] . ' ' . date('Y', strtotime('next Wednesday'))
             );
         } else {
-            // $recipient_email = $admin_email;
-            $recipient_email = $command->getUser()->GetEmail();
-            $subject = "Nouvelle commande sur lepotagerdesculsfouettes.fr";
+            $recipientEmail = $adminEmail;
+            // $recipientEmail = $command->getUser()->GetEmail();
+            $subject = "Nouvelle commande de " . $command->getUser()->getFirstname() . " " . $command->getUser()->getLastname() . " sur lepotagerdesculsfouettes.fr";
             $htmlTemplate = 'emails/adminCommand.html.twig';
             $context = array(
+                'customerName'=> $command->getUser()->getFirstname() . " " . $command->getUser()->getLastname(),
                 'totalTTC' => $command->getTotalTTC(),
                 'countProductCommands' => count($command->getProductCommands()),
                 'productsCommand' => $command->getProductCommands(),
-                'command' => $command,
-                'domainAndProtocol' => $_ENV["HTTP_DOMAIN"],
+                'command' => $command
             );
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address($admin_email, "Le potager des culs fouettés"))
-            ->to($recipient_email)
+            ->from(new Address($adminEmail, "Le potager des culs fouettés"))
+            ->to($recipientEmail)
             ->subject($subject)
             ->htmlTemplate($htmlTemplate)
             ->context($context);
