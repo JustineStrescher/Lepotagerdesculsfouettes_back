@@ -14,9 +14,7 @@ class CommandType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('numFact', TextType::class, [
-                'label' => 'Facture n°',
-            ])
+            
             ->add('status', ChoiceType::class,[
                 'label' => 'Status de la commande',
                 'choices'  => [

@@ -35,8 +35,16 @@ class CommandController extends AbstractController
         $command = new Command();
         $form = $this->createForm(CommandType::class, $command);
         $form->handleRequest($request);
+       
 
         if ($form->isSubmitted() && $form->isValid()) {
+             //On veux recuperer l'utilisateur à qui appartient la commande
+        $user= $command->getUser();
+        $num_fact = '#Fact_' . str_pad($user->getId() . count($user->getCommands())+1, 6, "0", STR_PAD_LEFT);
+        // On veut enrgistrer le numero de la facture en bdd l'hors de la création d'une commande
+        $command->setNumFact($num_fact);
+
+
             $entityManager->persist($command);
             $entityManager->flush();
 
