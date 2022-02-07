@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"client_id", "user_info"})
+     * @Groups({"user_info"})
      * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $roles = [];
@@ -53,42 +53,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"client_id", "user_info"})
+     * @Groups({"user_info"})
      * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"client_id", "user_info"})
+     * @Groups({"user_info"})
      * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=1000)
-     * @Groups({"client_id", "user_info"})
+     * @Groups({"user_info"})
      * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=30)
-     * @Groups({"client_id", "user_info"})
+     * @Groups({"user_info"})
      * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"client_id", "user_info"})
+     * @Groups({"user_info"})
      * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"client_id", "user_info"})
+     * @Groups({"user_info"})
      * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $country;
@@ -105,7 +105,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Groups({"client_id", "user_info"})
+     * @Groups({"user_info"})
      * @Assert\NotBlank(message = "Le champ '{{ label }}' ne peut être vide.")
      */
     private $phone;

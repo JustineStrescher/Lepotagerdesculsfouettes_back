@@ -72,20 +72,34 @@ class UserController extends AbstractController
 
      /**
      * sauvgarde les modification du compte utilisateur
-     * @Route("/api/client/{id<\d+>}", name="api_client_id_post", methods={"POST"})
+     * @Route("/api/client/update", name="api_client_udpate", methods={"POST"})
      */
-    public function postClientId(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, User $user)
+    public function udpateClient(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, UserPasswordHasherInterface $userPasswordHasher, ValidatorInterface $validator)
     {
         //Récuperer le contenu JSON
         $jsonContent=$request->getContent();
 
+        $user = $this->getUser();
+
         //Mise à jour de l'entité User
-        $serializer->deserialize($jsonContent, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
-       
-
-        //Validé l'entité
-
+        $user = $serializer->deserialize($jsonContent, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
+        $hashedPassword = $userPasswordHasher->hashPassword($user, $user->getPassword());
+        $user->setPassword($hashedPassword);
         //On sauvegarde l'entité
+        $errors = $validator->validate($user);
+        // Y'a-t-il des erreurs ?
+        if (count($errors) > 0) {
+           // tableau de retour
+           $errorsClean = [];
+           // @Retourner des erreurs de validation propres
+           /** @var ConstraintViolation $error */
+           foreach ($errors as $error) {
+               $errorsClean[$error->getPropertyPath()][] = $error->getMessage();
+           };
+
+           return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
+       }
+
         $entityManager = $doctrine->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
@@ -94,17 +108,13 @@ class UserController extends AbstractController
         //dd($user);
         return $this->json(
             //Le client modifié peut etre ajouté en retour
-            $user,
+            ['message' => 'update OK'],
             //Le status code : 200 OK
             //utilisation des constantes de classes
-            Response::HTTP_OK,
-            
-            //Groups
-            [
-                'groups' => [ 'client_id']
-            ]
+            Response::HTTP_OK
         );
     }
+
     /**
      * 
      * @Route("/api/client/register", name="api_client_register_post", methods={"POST"})
