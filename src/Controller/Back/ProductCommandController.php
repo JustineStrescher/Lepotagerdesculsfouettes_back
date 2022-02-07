@@ -25,6 +25,11 @@ class ProductCommandController extends AbstractController
             'product_commands' => $productCommandRepository->findAll(),
         ]);
     }
+    //Je crée une fonction qui va faire le total de mes produits commander
+    // public function totalProductCommand($commandId){
+    //     //le total de mes produits  commandé corespond au montant des produits présent dans ma commandes 
+    //     $
+    // }
 
     /**
      * @Route("/new", name="back_product_command_new", methods={"GET", "POST"})

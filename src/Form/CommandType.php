@@ -28,9 +28,7 @@ class CommandType extends AbstractType
                 // On veut des boutons radio !
                 'expanded' => true,
             ])
-            ->add('totalTTC', TextType::class, [
-                'label' => 'Total TTC',
-            ])
+           
            
             ->add('user')
         ;
