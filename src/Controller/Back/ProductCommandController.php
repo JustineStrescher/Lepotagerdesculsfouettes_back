@@ -76,7 +76,7 @@ class ProductCommandController extends AbstractController
             //Je veux appeller mon service de calcul de total de commande
             $totalCommand->updateTotalCommand($productCommand->getCommand()->getId());
 
-            return $this->redirectToRoute('back_product_command_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_command_show', ["id"=>$productCommand->getCommand()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back/product_command/edit.html.twig', [
