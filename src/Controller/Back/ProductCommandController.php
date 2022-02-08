@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use App\Entity\ProductCommand;
 use App\Form\ProductCommandType;
 use App\Repository\ProductCommandRepository;
+use App\Service\TotalCommand;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,16 +26,12 @@ class ProductCommandController extends AbstractController
             'product_commands' => $productCommandRepository->findAll(),
         ]);
     }
-    //Je crée une fonction qui va faire le total de mes produits commander
-    // public function totalProductCommand($commandId){
-    //     //le total de mes produits  commandé corespond au montant des produits présent dans ma commandes 
-    //     $
-    // }
+  
 
     /**
      * @Route("/new", name="back_product_command_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, TotalCommand $totalCommand): Response
     {
         $productCommand = new ProductCommand();
         $form = $this->createForm(ProductCommandType::class, $productCommand);
@@ -43,6 +40,9 @@ class ProductCommandController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($productCommand);
             $entityManager->flush();
+            //Je veux appeller mon service de calcul de total de commande
+            $totalCommand->updateTotalCommand($productCommand->getCommand()->getId());
+            
 
             return $this->redirectToRoute('back_product_command_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -66,15 +66,17 @@ class ProductCommandController extends AbstractController
     /**
      * @Route("/{id}/edit", name="back_product_command_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, ProductCommand $productCommand, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, ProductCommand $productCommand, EntityManagerInterface $entityManager, TotalCommand $totalCommand): Response
     {
         $form = $this->createForm(ProductCommandType::class, $productCommand);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            //Je veux appeller mon service de calcul de total de commande
+            $totalCommand->updateTotalCommand($productCommand->getCommand()->getId());
 
-            return $this->redirectToRoute('back_product_command_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_command_show', ["id"=>$productCommand->getCommand()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back/product_command/edit.html.twig', [
@@ -86,11 +88,13 @@ class ProductCommandController extends AbstractController
     /**
      * @Route("/{id}", name="back_product_command_delete", methods={"POST"})
      */
-    public function delete(Request $request, ProductCommand $productCommand, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, ProductCommand $productCommand, EntityManagerInterface $entityManager, TotalCommand $totalCommand): Response
     {
         if ($this->isCsrfTokenValid('delete'.$productCommand->getId(), $request->request->get('_token'))) {
             $entityManager->remove($productCommand);
             $entityManager->flush();
+             //Je veux appeller mon service de calcul de total de commande
+             $totalCommand->updateTotalCommand($productCommand->getCommand()->getId());
         }
 
         return $this->redirectToRoute('back_product_command_index', [], Response::HTTP_SEE_OTHER);
