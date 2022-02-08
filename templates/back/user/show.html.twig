@@ -43,11 +43,11 @@
             </tr>
             <tr>
                 <th>Modifié le :</th>
-                <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.updatedAt ? user.updatedAt|date('d-m-Y H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>Crée le :</th>
-                <td>{{ user.creationAt ? user.creationAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.creationAt ? user.creationAt|date('d-m-Y H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>Téléphone :</th>

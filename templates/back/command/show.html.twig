@@ -21,11 +21,11 @@
             </tr>
             <tr>
                 <th>Modifié le :</th>
-                <td>{{ command.updatedAt ? command.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ command.updatedAt ? command.updatedAt|date('d-m-Y H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>Crée le :</th>
-                <td>{{ command.creationAt ? command.creationAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ command.creationAt ? command.creationAt|date('d-m-Y H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>TotalTTC</th>
@@ -61,7 +61,7 @@
             <tr>
                 <td>{{ productsCommand.product.name }}</td>
                 <td>{{ productsCommand.quantity }}</td>
-                <td>{{ productsCommand.unitPrice }} €</td>
+                <td>{{ productsCommand.totalTTC }} €</td>
                 <td><a type="button" class="btn btn-outline-primary d-grid gap-2 col-6 mx-auto" href="{{ path('back_product_command_edit', {'id': productsCommand.id}) }}">Modifier</a></td>
             </tr>
             {% endfor %}
