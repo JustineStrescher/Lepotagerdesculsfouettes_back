@@ -71,13 +71,13 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
             if ($form->get('password')->getData()) {
                 // Si oui, on hache le nouveau mot de passe
                 $hashedPassword = $userPasswordHasher->hashPassword($user, $form->get('password')->getData());
                 // On écrase le mot de passe en clair par le mot de passe haché
                 $user->setPassword($hashedPassword);
             }
+            $entityManager->flush();
             return $this->redirectToRoute('back_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
