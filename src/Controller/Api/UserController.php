@@ -78,13 +78,17 @@ class UserController extends AbstractController
     {
         //Récuperer le contenu JSON
         $jsonContent=$request->getContent();
+        $jsonContentDecode = json_decode($jsonContent, true);
 
         $user = $this->getUser();
 
         //Mise à jour de l'entité User
         $user = $serializer->deserialize($jsonContent, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
-        $hashedPassword = $userPasswordHasher->hashPassword($user, $user->getPassword());
-        $user->setPassword($hashedPassword);
+        if (!empty($jsonContentDecode['password'])) {
+            // on change le mot de passe uniquement si il est contenu dans le Json
+            $hashedPassword = $userPasswordHasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($hashedPassword);
+        }
         //On sauvegarde l'entité
         $errors = $validator->validate($user);
         // Y'a-t-il des erreurs ?
