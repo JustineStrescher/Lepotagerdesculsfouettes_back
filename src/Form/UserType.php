@@ -70,25 +70,25 @@ class UserType extends AbstractType
                 }
             })
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom',
+                //'label' => 'Prénom',
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom',
+                //'label' => 'Nom',
             ])
             ->add('address', TextType::class, [
-                'label' => 'Adresse',
+                //'label' => 'Adresse',
             ])
             ->add('zip', TextType::class, [
-                'label' => 'code postal',
+                //'label' => 'code postal',
             ])
             ->add('city', TextType::class, [
-                'label' => 'Ville',
+                //'label' => 'Ville',
             ])
             ->add('country', TextType::class, [
-                'label' => 'Pays',
+                //'label' => 'Pays',
             ])
             ->add('phone', TextType::class, [
-                'label' => 'Téléphone',
+                //'label' => 'Téléphone',
             ])
         ;
     }
